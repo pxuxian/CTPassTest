@@ -1,5 +1,8 @@
 package com.ailk.obs.ctpass;
 
+import com.ailk.obs.ctpass.activity.IndexActivity;
+import com.ailk.obs.ctpass.log.LogUtil;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.ailk.obs.ctpass.activity.IndexActivity;
-import com.ailk.obs.ctpass.log.LogUtil;
 
 public class MainTestActivity extends Activity implements OnClickListener {
 
