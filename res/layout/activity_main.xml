@@ -8,6 +8,7 @@
         android:id="@+id/user_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="xx你好"
         android:textSize="16sp" />
 
     <TextView
@@ -15,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_tv"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:text="今天要星期几.xxxxxx" />
 
     <LinearLayout
         android:id="@+id/gd_ll"
@@ -38,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="2016年X月" />
+                android:text="测试时间点" />
 
             <View
                 android:layout_width="1px"
@@ -50,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="测试时间点" />
+                android:text="成功数/总数（单步测试）" />
         </LinearLayout>
 
         <View
@@ -69,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="2016年X月" />
+                android:text="测试时间点" />
 
             <View
                 android:layout_width="1px"
@@ -81,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="测试时间点" />
+                android:text="成功数/总数（一步测试）" />
         </LinearLayout>
     </LinearLayout>
 

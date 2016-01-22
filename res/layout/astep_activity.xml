@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.servicelife.MainActivity" >
+
+    <Button
+        android:id="@+id/btn_formal_astep"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="formal"
+        android:text="正式系统一键测试" />
+
+    <Button
+        android:id="@+id/btn_test_astep"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test"
+        android:text="测试系统一键测试" />
+    
+    
+
+</LinearLayout>
