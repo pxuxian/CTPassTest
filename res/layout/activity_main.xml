@@ -8,7 +8,6 @@
         android:id="@+id/user_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="xx你好"
         android:textSize="16sp" />
 
     <TextView
@@ -16,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_tv"
-        android:layout_marginTop="10dp"
-        android:text="今天要星期几.xxxxxx" />
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:id="@+id/gd_ll"

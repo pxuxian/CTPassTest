@@ -1,13 +1,13 @@
 package com.ailk.obs.ctpass.activity;
 
+import com.ailk.obs.ctpass.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.ailk.obs.ctpass.R;
 
 public class IndexActivity extends Activity {
 
@@ -21,29 +21,23 @@ public class IndexActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.index_activity);
-
 		this.initView();
-
 	}
 
 	private void initView() {
-
 		mButtonGoTestCASE = (Button) findViewById(R.id.btn_test);
 		mButtonGoLogin = (Button) findViewById(R.id.btn_test_login);
 		mButtonGoLoginOTA = (Button) findViewById(R.id.btn_test_login_ota);
 		mButtonGoLoginQr = (Button) findViewById(R.id.btn_test_login_qr);
 		tvServer = (TextView) findViewById(R.id.tvServer);
-
 		mButtonGoTestCASE.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-
 				// Intent intent = new Intent(IndexActivity.this,
 				// MainActivity.class);
 				//
 				// startActivity(intent);
-
 			}
 		});
 
@@ -69,14 +63,11 @@ public class IndexActivity extends Activity {
 		});
 
 		mButtonGoLoginQr.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
-				//
 				// Intent intent = new Intent(IndexActivity.this,
 				// LoginQr.class);
 				// startActivity(intent);
-
 			}
 		});
 
@@ -85,20 +76,6 @@ public class IndexActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// if (APIProvider.RELEASE_HOST_URL
-		// .equals(APIProvider.getInstance().hostURL)) {
-		// SystemSwitch.broadcaseSystem(this, true);
-		// tvServer.setText("当前使用的是正式系统地址");
-		// } else if (APIProvider.DEBUG_HOST_URL
-		// .equals(APIProvider.getInstance().hostURL)) {
-		// SystemSwitch.broadcaseSystem(this, false);
-		// tvServer.setText("当前使用的是测试系统地址");
-		// } else {
-		// SystemSwitch.broadcaseSystem(this, true);
-		// APIProvider.getInstance().hostURL = APIProvider.RELEASE_HOST_URL;
-		// tvServer.setText("当前使用的是正式系统地址");
-		// }
-
 	}
 
 	public void onClickTestUDun(View view) {

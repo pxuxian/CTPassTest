@@ -1,7 +1,10 @@
 package com.ailk.obs.ctpass;
 
+import java.util.Date;
+
 import com.ailk.obs.ctpass.activity.IndexActivity;
 import com.ailk.obs.ctpass.log.LogUtil;
+import com.ailk.obs.ctpass.util.DateUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +23,7 @@ public class MainTestActivity extends Activity implements OnClickListener {
 	private TextView reportTv;
 	private TextView testLogTv;
 	private TextView userNameTv;
+	private TextView datetimeTv;
 
 	Handler mHandler = new Handler(){
 		@Override
@@ -35,25 +39,29 @@ public class MainTestActivity extends Activity implements OnClickListener {
 			}
 		};
 	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		findView();
+		initView();
 	}
 
-	private void findView() {
+	private void initView() {
+		userNameTv = (TextView) findViewById(R.id.user_tv);
+		userNameTv.setText("您好");
+		datetimeTv = (TextView) findViewById(R.id.datetime_tv);
+		datetimeTv.setText("今天是" + DateUtil.format(new Date()) + "，" + DateUtil.getWeekDay(new Date()));
+		
 		allTestTv = (TextView) findViewById(R.id.all_test_tv);
 		oneceTestTv = (TextView) findViewById(R.id.onece_test_tv);
 		reportTv = (TextView) findViewById(R.id.report_tv);
 		testLogTv = (TextView) findViewById(R.id.test_log_tv);
-		userNameTv = (TextView) findViewById(R.id.user_tv);
 
 		allTestTv.setOnClickListener(this);
 		oneceTestTv.setOnClickListener(this);
 		reportTv.setOnClickListener(this);
 		testLogTv.setOnClickListener(this);
-		userNameTv.setText("先您好");
 	}
 
 	@Override
@@ -63,7 +71,6 @@ public class MainTestActivity extends Activity implements OnClickListener {
 			Toast.makeText(MainTestActivity.this, "begin", 0).show();
 			Intent intent = new Intent(MainTestActivity.this, IndexActivity.class);
 			startActivity(intent);
-			Toast.makeText(MainTestActivity.this, "end", 0).show();
 			break;
 		case R.id.onece_test_tv:// 一步测试
 			LogUtil.write("test....");
