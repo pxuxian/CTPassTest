@@ -28,7 +28,7 @@ public class AStepActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				ProgressDialogUtil.showProgress(AStepActivity.this, "ÕıÊ½ÏµÍ³ÕıÔÚ²âÊÔÖĞ£¬ÇëÉÔºó¡£¡£¡£¡£");
+				ProgressDialogUtil.showProgress(AStepActivity.this, "æ­£å¼ç¯å¢ƒæ­£åœ¨æµ‹è¯•ä¸­ï¼Œè¯·ç¨åã€‚ã€‚ã€‚ã€‚");
 				
 				
 			}
@@ -37,7 +37,7 @@ public class AStepActivity extends Activity {
 		mButtonGoTest.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ProgressDialogUtil.showProgress(AStepActivity.this, "²âÊÔÏµÍ³ÕıÔÚ²âÊÔÖĞ£¬ÇëÉÔºó¡£¡£¡£¡£");
+				ProgressDialogUtil.showProgress(AStepActivity.this, "æµ‹è¯•ç¯å¢ƒæ­£åœ¨æµ‹è¯•ä¸­ï¼Œè¯·ç¨åã€‚ã€‚ã€‚ã€‚");
 			}
 		});
 	}

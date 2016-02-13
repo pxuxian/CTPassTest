@@ -18,7 +18,5 @@
         android:layout_height="wrap_content"
         android:onClick="test"
         android:text="测试系统一键测试" />
-    
-    
 
 </LinearLayout>

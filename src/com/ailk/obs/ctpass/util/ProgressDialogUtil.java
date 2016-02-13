@@ -8,7 +8,7 @@ import android.widget.Toast;
 public class ProgressDialogUtil {
 	public static void showProgress(final Context context, String msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
-		pd.setTitle("ÌáĞÑ");
+		pd.setTitle("æé†’");
 		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		pd.setMax(100);
 		pd.setMessage(msg);
@@ -26,7 +26,7 @@ public class ProgressDialogUtil {
 				}
 				pd.dismiss();
 				Looper.prepare();
-				Toast.makeText(context, "²âÊÔÍê³É",Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "æµ‹è¯•å®Œæˆ",Toast.LENGTH_LONG).show();
 			};
 		}.start();
 	}
