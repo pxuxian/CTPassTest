@@ -61,10 +61,42 @@
                 android:layout_width="234dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="UnBind CTPass Service" />
+                android:text="建立机卡连接" />
 
             <Button
-                android:id="@+id/buttonUnBindService"
+                android:id="@+id/buttonConnectOMA"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Test" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="2" />
+
+            <TextView
+                android:layout_width="234dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Get CTPass Token" />
+
+            <Button
+                android:id="@+id/buttonGenToken"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
