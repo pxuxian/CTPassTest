@@ -27,7 +27,7 @@ import com.ailk.obs.ctpass.module.AuthToken;
 import com.ailk.obs.ctpass.module.TestResult;
 
 public class CaseActivity extends Activity {
-	AsyncProvider mAsyncProvider;
+	private AsyncProvider mAsyncProvider;
 	private static final String BIND_ACTION = "cn.com.chinatelecom.ctpass.service";
 	private Builder mAlertDialog;
 	private Button mButtonBindService;
@@ -61,6 +61,7 @@ public class CaseActivity extends Activity {
 	}
 
 	private void initView() {
+		mAsyncProvider = new AsyncProvider();
 		mAlertDialog = new AlertDialog.Builder(this);
 		mButtonBindService = (Button) findViewById(R.id.buttonBindService);
 		mButtonConnectOMA = (Button) findViewById(R.id.buttonConnectOMA);
@@ -70,9 +71,10 @@ public class CaseActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				boolean flag = getCTPassService();
-				handler.sendMessage(TestResult.messageMap.get("messageMap"));
 				if (flag) {
 					reportToast("绑定服务成功");
+					Message msg= TestResult.messageMap.get("messageMap");
+					handler.sendMessage(msg);
 					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
 					reportToast("绑定服务失败");
@@ -107,6 +109,9 @@ public class CaseActivity extends Activity {
 				}
 			}
 		});
+		
+		
+		
 
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 
@@ -117,13 +122,16 @@ public class CaseActivity extends Activity {
 					@Override
 					public void onComplete(final Object response) {
 						final AuthToken authToken = authTokenManage.genarateAuthToken(response, "", mServiceConnection);
-						new AlertDialog.Builder(CaseActivity.this).setTitle("Token参数").setMessage(authToken.toString())
+						String token = authToken == null ? null : authToken.toString();
+						new AlertDialog.Builder(CaseActivity.this).setTitle("Token参数").setMessage(token)
 								.setPositiveButton("验证token", new android.content.DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										authTokenManage.authTokenOnly(authToken, mAsyncProvider);
+										Boolean flag = TestResult.resultMap.get("authTokenResult");
+										flag = flag == null ? false : true;
 										showAlert("Token认证服务器返回", TestResult.dataMap.get("authTokenReturn"));
-										if (TestResult.resultMap.get("authTokenResult")) {
+										if (flag) {
 											mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_GREEN);
 										} else {
 											mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);

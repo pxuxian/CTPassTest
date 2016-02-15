@@ -17,6 +17,9 @@ public class AuthTokenManager {
 
 	public AuthToken genarateAuthToken(Object response, String pcCode, BindServiceConnection serviceConnection) {
 		try {
+			if (response == null) {
+				return null;
+			}
 			JSONObject obj = (JSONObject) response;
 			JSONObject resultJsonObject = obj.getJSONObject("GenReqAndRandomResponse");
 			String seqId = resultJsonObject.getString("SeqID");
@@ -32,6 +35,9 @@ public class AuthTokenManager {
 
 	public void authTokenOnly(final AuthToken authToken, AsyncProvider mAsyncProvider) {
 		try {
+			if (authToken == null) {
+				return;
+			}
 			String pcFlag = "0";
 			if (authToken.getPcCode() == null || authToken.getPcCode().length() == 0) {
 				pcFlag = "0";
@@ -39,7 +45,6 @@ public class AuthTokenManager {
 				pcFlag = "1";
 			}
 			if (authToken.getToken() == null) {
-				TestResult.resultMap.put("authTokenResult", false);
 				return;
 			}
 			if (authToken.getToken().substring(0, 2).equals("00")) {
@@ -56,24 +61,20 @@ public class AuthTokenManager {
 									TestResult.dataMap.put("authTokenReturn", sb.toString());
 									TestResult.resultMap.put("authTokenResult", true);
 								} catch (Exception e) {
-									TestResult.resultMap.put("authTokenResult", false);
 									Log.e(TAG, e.getMessage(), e);
 								}
 							}
 
 							@Override
 							public void onInvokerError(final String e) {
-								TestResult.resultMap.put("authTokenResult", false);
 								Log.e(TAG, "访问网络异常", new Exception());
 							}
 
 						});
 			} else {
-				TestResult.resultMap.put("authTokenResult", false);
 				Log.e(TAG, "获取token失败,不验证token：" + authToken.toString(), new Exception());
 			}
 		} catch (Exception e) {
-			TestResult.resultMap.put("authTokenResult", false);
 			e.printStackTrace();
 		}
 
