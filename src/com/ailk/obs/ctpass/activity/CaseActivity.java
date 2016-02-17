@@ -1,10 +1,10 @@
 package com.ailk.obs.ctpass.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
@@ -24,11 +23,10 @@ import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.module.AuthToken;
-import com.ailk.obs.ctpass.module.TestResult;
+import com.ailk.obs.ctpass.util.ActivityUtil;
 
 public class CaseActivity extends Activity {
 	private AsyncProvider mAsyncProvider;
-	private static final String BIND_ACTION = "cn.com.chinatelecom.ctpass.service";
 	private Builder mAlertDialog;
 	private Button mButtonBindService;
 	private Button mButtonConnectOMA;
@@ -37,21 +35,33 @@ public class CaseActivity extends Activity {
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
 
 	// TOKEN OTA认证，检查认证结果
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			final int what = msg.what;
-			switch (what) {
+			switch (msg.what) {
 			case 1:
 				showAlert("IsSupport 结果", msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("flag")) {
+					mButtonConnectOMA.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+			case 2:
+				showAlert("Token认证服务器返回: ", msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("flag")) {
+					mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);
+				}
 				break;
 			default:
 				break;
 			}
 		};
 	};
-
-	private BindServiceConnection mServiceConnection = new BindServiceConnection();
+	private BindServiceConnection serviceConnection = new BindServiceConnection(handler);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +79,10 @@ public class CaseActivity extends Activity {
 
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
-				boolean flag = getCTPassService();
+			public void onClick(View view) {
+				boolean flag = bindServiceManager.getCTPassService(view.getContext(), serviceConnection);
 				if (flag) {
 					reportToast("绑定服务成功");
-					Message msg= TestResult.messageMap.get("messageMap");
-					handler.sendMessage(msg);
 					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
 					reportToast("绑定服务失败");
@@ -94,24 +102,20 @@ public class CaseActivity extends Activity {
 		mButtonConnectOMA.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mServiceConnection.getCtpassAIDLService() != null) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
 					try {
-						mServiceConnection.getCtpassAIDLService().connectCTPassService();
+						serviceConnection.getCtpassAIDLService().connectCTPassService();
 						reportToast("通道连接建立中...");
-						mButtonConnectOMA.setBackgroundColor(Constants.COLOR_GREEN);
+						return;
 					} catch (RemoteException e) {
-						mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
 						e.printStackTrace();
 					}
 				} else {
 					reportToast("请先绑定服务");
-					mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
 				}
+				mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
 			}
 		});
-		
-		
-		
 
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 
@@ -121,21 +125,13 @@ public class CaseActivity extends Activity {
 				mAsyncProvider.getSeqIDRandom(new RequestListener() {
 					@Override
 					public void onComplete(final Object response) {
-						final AuthToken authToken = authTokenManage.genarateAuthToken(response, "", mServiceConnection);
+						final AuthToken authToken = authTokenManage.genarateAuthToken(response, "", serviceConnection);
 						String token = authToken == null ? null : authToken.toString();
 						new AlertDialog.Builder(CaseActivity.this).setTitle("Token参数").setMessage(token)
 								.setPositiveButton("验证token", new android.content.DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
-										authTokenManage.authTokenOnly(authToken, mAsyncProvider);
-										Boolean flag = TestResult.resultMap.get("authTokenResult");
-										flag = flag == null ? false : true;
-										showAlert("Token认证服务器返回", TestResult.dataMap.get("authTokenReturn"));
-										if (flag) {
-											mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_GREEN);
-										} else {
-											mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);
-										}
+										authTokenManage.authTokenOnly(authToken, mAsyncProvider, handler);
 									}
 								}).setNegativeButton("取消", null).setCancelable(false).create().show();
 					}
@@ -158,18 +154,8 @@ public class CaseActivity extends Activity {
 
 	}
 
-	private boolean getCTPassService() {
-		Intent intent = new Intent();
-		intent.setAction(BIND_ACTION);
-		intent.setPackage("cn.com.chinatelecom.ctpass");
-		startService(intent);
-		return bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-
-	}
-
 	public void reportToast(String message) {
-		Toast mToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-		mToast.show();
+		ActivityUtil.reportToast(this, message);
 	}
 
 	public void showAlert(String title, String message) {
@@ -180,7 +166,7 @@ public class CaseActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		try {
-			unbindService(mServiceConnection);
+			unbindService(serviceConnection);
 		} catch (Exception e) {
 		}
 		try {

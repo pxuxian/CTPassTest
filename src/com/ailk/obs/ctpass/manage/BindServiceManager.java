@@ -6,13 +6,31 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
 public class BindServiceManager {
-
+	private static final String BIND_ACTION = "cn.com.chinatelecom.ctpass.service";
+	private static final String BIND_PACKAGE = "cn.com.chinatelecom.ctpass";
+	
+	public boolean getCTPassService(Context context, ServiceConnection serviceConnection) {
+		try {
+			Intent intent = new Intent();
+			intent.setAction(BIND_ACTION);
+			intent.setPackage(BIND_PACKAGE);
+			context.startService(intent);
+			return context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public void getSingInfo(PackageInfo packageInfo) {
 		try {
 			Signature[] signs = packageInfo.signatures;
