@@ -14,6 +14,8 @@ import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
@@ -24,6 +26,7 @@ import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.module.AuthToken;
 import com.ailk.obs.ctpass.util.ActivityUtil;
+import com.ailk.obs.ctpass.util.SharedPreferencesWrapper;
 
 public class CaseActivity extends Activity {
 	private AsyncProvider mAsyncProvider;
@@ -31,6 +34,10 @@ public class CaseActivity extends Activity {
 	private Button mButtonBindService;
 	private Button mButtonConnectOMA;
 	private Button mButtomGetCTPassToken;
+	private TextView mEditTextCellPhoneAuth;
+	private Button mButtonAuthTokenByOTA;
+
+	private String currentMobileNumber;
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
 
@@ -76,6 +83,8 @@ public class CaseActivity extends Activity {
 		mButtonBindService = (Button) findViewById(R.id.buttonBindService);
 		mButtonConnectOMA = (Button) findViewById(R.id.buttonConnectOMA);
 		mButtomGetCTPassToken = (Button) findViewById(R.id.buttonGenToken);
+		mEditTextCellPhoneAuth = (EditText) findViewById(R.id.textCellPhoneOTA);
+		mButtonAuthTokenByOTA = (Button) findViewById(R.id.buttonGenTokenByOTA);
 
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
@@ -114,6 +123,28 @@ public class CaseActivity extends Activity {
 					reportToast("请先绑定服务");
 				}
 				mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
+			}
+		});
+
+		// Get TCPass Token(OTA方式无需PC码)
+		mButtonAuthTokenByOTA.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					final String pCFlagString = "";
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+
+					// 保存到xml中
+					SharedPreferencesWrapper.getCacheInstance().writeString(SharedPreferencesWrapper.MOBILE_NUMBER,
+							cellPhone);
+					setTextMobileNumber();
+
+					// mAsyncProvider.getSeqIDRandom(new RequestListener() {}
+				}
 			}
 		});
 
@@ -171,6 +202,15 @@ public class CaseActivity extends Activity {
 		}
 		try {
 		} catch (Exception e) {
+		}
+	}
+
+	private void setTextMobileNumber() {
+		String mobileNumber = SharedPreferencesWrapper.getCacheInstance().readString(
+				SharedPreferencesWrapper.MOBILE_NUMBER, "");
+		if (!mobileNumber.equals(currentMobileNumber)) {
+			currentMobileNumber = mobileNumber;
+			mEditTextCellPhoneAuth.setText(mobileNumber);
 		}
 	}
 
