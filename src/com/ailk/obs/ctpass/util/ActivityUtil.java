@@ -9,5 +9,4 @@ public class ActivityUtil {
 		Toast mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 		mToast.show();
 	}
-
 }

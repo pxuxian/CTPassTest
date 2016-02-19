@@ -35,15 +35,27 @@ public class APIProvider implements Serializable {
 		Log.d("DEBUG", this.hostURL + "GenReqAndRandom.aspx");
 		return this.httpGetInternal(this.hostURL + "GenReqAndRandom.aspx");
 	}
+
+	public JSONObject authToken(String s, String seqID, String random, String pcFlag) {
+		Log.d("DEBUG", this.hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random + "&PCFlag="
+				+ pcFlag);
+		return this.httpGetInternal(this.hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random
+				+ "&PCFlag=" + pcFlag);
+	}
+
+	public JSONObject authTokenByOTA(String mobile, String seqID, String random, String pcFlag) {
+		Log.d("DEBUG", this.hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID + "&Random=" + random
+				+ "&PCFlag=" + pcFlag);
+		return this.httpGetInternal(this.hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID
+				+ "&Random=" + random + "&PCFlag=" + pcFlag);
+	}
 	
-	public JSONObject authToken(String s, String seqID, String random,
-            String pcFlag) {
-        Log.d("DEBUG", this.hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID="
-                + seqID + "&Random=" + random + "&PCFlag=" + pcFlag);
-        return this
-                .httpGetInternal(this.hostURL + "CTPassAuth.aspx?s=" + s
-                        + "&SeqID=" + seqID + "&Random=" + random + "&PCFlag="
-                        + pcFlag);
+	public JSONObject checkResult(String seqID, String random) {
+        Log.d("DEBUG", this.hostURL + "CheckAuthResultForClient.aspx?SeqID="
+                + seqID + "&Random=" + random);
+        return this.httpGetInternal(this.hostURL
+                + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random="
+                + random);
     }
 
 	private Object readResolve() {

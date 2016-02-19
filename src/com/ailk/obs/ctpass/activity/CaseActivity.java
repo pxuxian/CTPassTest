@@ -26,7 +26,6 @@ import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.module.AuthToken;
 import com.ailk.obs.ctpass.util.ActivityUtil;
-import com.ailk.obs.ctpass.util.SharedPreferencesWrapper;
 
 public class CaseActivity extends Activity {
 	private AsyncProvider mAsyncProvider;
@@ -36,8 +35,6 @@ public class CaseActivity extends Activity {
 	private Button mButtomGetCTPassToken;
 	private TextView mEditTextCellPhoneAuth;
 	private Button mButtonAuthTokenByOTA;
-
-	private String currentMobileNumber;
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
 
@@ -132,18 +129,11 @@ public class CaseActivity extends Activity {
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
 					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					final String pCFlagString = "";
 					if (cellPhone.equals("")) {
 						reportToast("请输入认证手机号");
 						return;
 					}
-
-					// 保存到xml中
-					SharedPreferencesWrapper.getCacheInstance().writeString(SharedPreferencesWrapper.MOBILE_NUMBER,
-							cellPhone);
-					setTextMobileNumber();
-
-					// mAsyncProvider.getSeqIDRandom(new RequestListener() {}
+					authTokenManage.authTokenOTA(cellPhone, "0", serviceConnection, mAsyncProvider, handler);
 				}
 			}
 		});
@@ -202,15 +192,6 @@ public class CaseActivity extends Activity {
 		}
 		try {
 		} catch (Exception e) {
-		}
-	}
-
-	private void setTextMobileNumber() {
-		String mobileNumber = SharedPreferencesWrapper.getCacheInstance().readString(
-				SharedPreferencesWrapper.MOBILE_NUMBER, "");
-		if (!mobileNumber.equals(currentMobileNumber)) {
-			currentMobileNumber = mobileNumber;
-			mEditTextCellPhoneAuth.setText(mobileNumber);
 		}
 	}
 

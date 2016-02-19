@@ -1,5 +1,6 @@
 package com.ailk.obs.ctpass.manage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import com.ailk.obs.ctpass.module.AuthToken;
 import com.ailk.obs.ctpass.util.LocalConfig;
 
 public class AuthTokenManager {
-
 	private static final String TAG = AuthTokenManager.class.getSimpleName();
 
 	public AuthToken genarateAuthToken(Object response, String pcCode, BindServiceConnection serviceConnection) {
@@ -34,6 +34,70 @@ public class AuthTokenManager {
 			Log.e(TAG, e.getMessage(), e);
 		}
 		return null;
+	}
+
+	public void authTokenOTA(final String cellPhone, final String pcFlag,
+			final BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider, final Handler handler) {
+		// 自动获取seqid等然后获取s串,再进行认证
+		mAsyncProvider.getSeqIDRandom(new RequestListener() {
+			@Override
+			public void onComplete(Object response) {
+				authTokenOTA(cellPhone, pcFlag, response, serviceConnection, mAsyncProvider, handler);
+			}
+
+			@Override
+			public void onInvokerError(String e) {
+
+			}
+		});
+	}
+
+	public void authTokenOTA(String cellPhone, final String pcFlag, Object response,
+			BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider, final Handler handler) {
+		try {
+			if (response == null) {
+				// return null;
+			}
+			JSONObject resultJsonObject = ((JSONObject) response).getJSONObject("GenReqAndRandomResponse");
+			final String seqId = resultJsonObject.getString("SeqID");
+			final String random = resultJsonObject.getString("Random");
+
+			mAsyncProvider.authTokenByOTA(cellPhone, seqId, random, pcFlag, new RequestListener() {
+				@Override
+				public void onComplete(final Object response) {
+					final String CR = System.getProperty("line.separator");
+					StringBuilder sb = new StringBuilder();
+					sb.append("SeqID:").append(seqId).append(CR);
+					sb.append("Radom:").append(random).append(CR);
+					sb.append("PCFlag:").append(pcFlag).append(CR);
+
+					try {
+						JSONObject obj = (JSONObject) response;
+						JSONObject resultJsonObject = obj.getJSONObject("AuthCTPassTokenByOTAResponse");
+						String resultString = resultJsonObject.getString("ResultCode");
+						if (resultString.equals("0")) {
+							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, handler));
+							sb.append("等待认证结果返回");
+							// showAlert("OTA Auth认证", sb.toString());
+						} else {
+							sb.append("错误代码：").append(resultString);
+							// showAlert("OTA Auth认证", sb.toString());
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onInvokerError(final String e) {
+				}
+
+			});
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void authTokenOnly(final AuthToken authToken, AsyncProvider mAsyncProvider, final Handler handler) {
