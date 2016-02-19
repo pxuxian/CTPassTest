@@ -69,68 +69,65 @@ public class AsyncProvider {
 		}.exe();
 
 	}
-	public void authTokenByOTA(final String mobile, final String seqID,
-            final String random, final String pcFlag,
-            final RequestListener listener) {
-        new AsyncTask<Void, Void, Object>() {
-            
-            @Override
-            protected Object doInBackground(Void... params) {
-                try {
-                    JSONObject result = provider.authTokenByOTA(mobile, seqID,
-                            random, pcFlag);
-                    //Log.d(TAG, "00001");
-                    return result;
-                } catch (Exception e) {
-                    Log.e("authTokenByOTA", e.getMessage(), e);
-                    return e;
-                }
-            }
-            
-            @Override
-            protected void onPostExecute(Object result) {
-                super.onPostExecute(result);
-                if (result instanceof Exception) {
-                    Exception e = (Exception) result;
-                    listener.onInvokerError(e.getMessage());
-                } else {
-                    listener.onComplete(result);
-                }
-            }
-        }.exe();
-        
-       
-    }
-	
-	public void checkAuthResult(final String seqID, final String random,
-            final RequestListener listener) {
-        new AsyncTask<Void, Void, Object>() {
-            
-            @Override
-            protected Object doInBackground(Void... params) {
-                try {
-                    JSONObject result = provider.checkResult(seqID, random);
-                    Log.d(TAG, "00001");
-                    return result;
-                } catch (Exception e) {
-                    Log.e("checkAuthResult", e.getMessage(), e);
-                    return e;
-                }
-            }
-            
-            @Override
-            protected void onPostExecute(Object result) {
-                super.onPostExecute(result);
-                if (result instanceof Exception) {
-                    Exception e = (Exception) result;
-                    listener.onInvokerError(e.getMessage());
-                } else {
-                    listener.onComplete(result);
-                }
-            }
-        }.exe();
-    }
-	
+
+	public void authTokenByOTA(final String mobile, final String seqID, final String random, final String pcFlag,
+			final RequestListener listener) {
+		new AsyncTask<Void, Void, Object>() {
+
+			@Override
+			protected Object doInBackground(Void... params) {
+				try {
+					JSONObject result = provider.authTokenByOTA(mobile, seqID, random, pcFlag);
+					Log.d(TAG, "00001");
+					return result;
+				} catch (Exception e) {
+					Log.e("authTokenByOTA", e.getMessage(), e);
+					return e;
+				}
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				super.onPostExecute(result);
+				if (result instanceof Exception) {
+					Exception e = (Exception) result;
+					listener.onInvokerError(e.getMessage());
+				} else {
+					listener.onComplete(result);
+				}
+			}
+		}.exe();
+
+	}
+
+	public void checkAuthResult(final String seqID, final String random, final RequestListener listener) {
+		new AsyncTask<Void, Void, Object>() {
+
+			@Override
+			protected Object doInBackground(Void... params) {
+				try {
+					JSONObject result = provider.checkResult(seqID, random);
+					Log.d(TAG, "00001");
+					return result;
+				} catch (Exception e) {
+					Log.e("checkAuthResult", e.getMessage(), e);
+					return e;
+				}
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				super.onPostExecute(result);
+				if (result instanceof Exception) {
+					Exception e = (Exception) result;
+					listener.onInvokerError(e.getMessage());
+				} else {
+					listener.onComplete(result);
+				}
+			}
+		}.exe();
+	}
+
 	public static interface RequestListener {
 		/**
 		 * 当请求完成时被调用

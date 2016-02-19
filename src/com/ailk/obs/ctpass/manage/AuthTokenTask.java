@@ -15,12 +15,14 @@ public class AuthTokenTask implements Runnable {
 	private String seqId;
 	private String random;
 	private int invokeCount;
+	private String pcFlag;
 	private Handler handler;
 
-	public AuthTokenTask(AsyncProvider mAsyncProvider, String seqId, String random, Handler handler) {
+	public AuthTokenTask(AsyncProvider mAsyncProvider, String seqId, String random, String pcFlag, Handler handler) {
 		this.mAsyncProvider = mAsyncProvider;
 		this.seqId = seqId;
 		this.random = random;
+		this.pcFlag = pcFlag;
 		this.handler = handler;
 	}
 
@@ -42,6 +44,7 @@ public class AuthTokenTask implements Runnable {
 		final Bundle dataBundle = new Bundle();
 		msg.setData(dataBundle);
 		msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
+		msg.arg1 = Integer.valueOf(pcFlag);
 
 		if (seqId == null && random == null) {
 			return;

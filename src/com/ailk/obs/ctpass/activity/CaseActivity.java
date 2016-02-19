@@ -35,6 +35,9 @@ public class CaseActivity extends Activity {
 	private Button mButtomGetCTPassToken;
 	private TextView mEditTextCellPhoneAuth;
 	private Button mButtonAuthTokenByOTA;
+	private Button mButtonGenTokenByOTAPC;
+	private Button mButtonGenTokenByOTANewPC;
+
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
 
@@ -60,15 +63,29 @@ public class CaseActivity extends Activity {
 					mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);
 				}
 				break;
-				
+
 			case 3:
 				showAlert("TokenByOTA认证服务器返回: ", msg.getData().getString("RESULT"));
-				if (msg.getData().getBoolean("flag")) {
+				int i= msg.arg1;
+				if (msg.getData().getBoolean("flag") && msg.arg1 == 0) {
 					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_GREEN);
-				} else {
+				} else if( msg.arg1 == 0) {
 					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_RED);
 				}
+
 				
+				if (msg.getData().getBoolean("flag") && msg.arg1 == 1) {
+					mButtonGenTokenByOTAPC.setBackgroundColor(Constants.COLOR_GREEN);
+				} else if(msg.arg1 == 1) {
+					mButtonGenTokenByOTAPC.setBackgroundColor(Constants.COLOR_RED);
+				}
+
+				if (msg.getData().getBoolean("flag") && msg.arg1 == 2) {
+					mButtonGenTokenByOTANewPC.setBackgroundColor(Constants.COLOR_GREEN);
+				} else if( msg.arg1 == 2) {
+					mButtonGenTokenByOTANewPC.setBackgroundColor(Constants.COLOR_RED);
+				}
+
 				break;
 			default:
 				break;
@@ -92,6 +109,8 @@ public class CaseActivity extends Activity {
 		mButtomGetCTPassToken = (Button) findViewById(R.id.buttonGenToken);
 		mEditTextCellPhoneAuth = (EditText) findViewById(R.id.textCellPhoneOTA);
 		mButtonAuthTokenByOTA = (Button) findViewById(R.id.buttonGenTokenByOTA);
+		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
+		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
 
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
@@ -144,6 +163,36 @@ public class CaseActivity extends Activity {
 						return;
 					}
 					authTokenManage.authTokenOTA(cellPhone, "0", serviceConnection, mAsyncProvider, handler);
+				}
+			}
+		});
+
+		// Get TCPass Token by pcCode(需要PC码)
+		mButtonGenTokenByOTAPC.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					authTokenManage.authTokenOTA(cellPhone, "1", serviceConnection, mAsyncProvider, handler);
+				}
+			}
+		});
+		
+		// Get TCPass Token by pcCode(需要新PC码)
+		mButtonGenTokenByOTANewPC.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					authTokenManage.authTokenOTA(cellPhone, "2", serviceConnection, mAsyncProvider, handler);
 				}
 			}
 		});

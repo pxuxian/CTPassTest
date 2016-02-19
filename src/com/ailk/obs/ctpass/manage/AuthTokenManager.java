@@ -76,7 +76,7 @@ public class AuthTokenManager {
 						JSONObject resultJsonObject = obj.getJSONObject("AuthCTPassTokenByOTAResponse");
 						String resultString = resultJsonObject.getString("ResultCode");
 						if (resultString.equals("0")) {
-							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, handler));
+							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pcFlag, handler));
 							Log.e(TAG, sb.toString());
 						} else {
 							sb.append("认证失败  错误代码：").append(resultString);
@@ -86,6 +86,7 @@ public class AuthTokenManager {
 							final Bundle dataBundle = new Bundle();
 							msg.setData(dataBundle);
 							msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
+							msg.arg1 = Integer.valueOf(pcFlag);
 							dataBundle.putString("RESULT", sb.toString());
 							handler.sendMessage(msg);
 							Log.e(TAG, sb.toString());
