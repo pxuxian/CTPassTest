@@ -79,7 +79,7 @@ public class AsyncProvider {
                 try {
                     JSONObject result = provider.authTokenByOTA(mobile, seqID,
                             random, pcFlag);
-                    Log.d(TAG, "00001");
+                    //Log.d(TAG, "00001");
                     return result;
                 } catch (Exception e) {
                     Log.e("authTokenByOTA", e.getMessage(), e);

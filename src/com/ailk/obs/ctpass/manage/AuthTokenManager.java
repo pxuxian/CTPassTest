@@ -47,7 +47,7 @@ public class AuthTokenManager {
 
 			@Override
 			public void onInvokerError(String e) {
-
+				Log.e(TAG, "访问异常", new Exception());
 			}
 		});
 	}
@@ -56,7 +56,7 @@ public class AuthTokenManager {
 			BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider, final Handler handler) {
 		try {
 			if (response == null) {
-				// return null;
+				return;
 			}
 			JSONObject resultJsonObject = ((JSONObject) response).getJSONObject("GenReqAndRandomResponse");
 			final String seqId = resultJsonObject.getString("SeqID");
@@ -77,26 +77,33 @@ public class AuthTokenManager {
 						String resultString = resultJsonObject.getString("ResultCode");
 						if (resultString.equals("0")) {
 							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, handler));
-							sb.append("等待认证结果返回");
-							// showAlert("OTA Auth认证", sb.toString());
+							Log.e(TAG, sb.toString());
 						} else {
-							sb.append("错误代码：").append(resultString);
-							// showAlert("OTA Auth认证", sb.toString());
+							sb.append("认证失败  错误代码：").append(resultString);
+
+							// handler处理
+							final Message msg = new Message();
+							final Bundle dataBundle = new Bundle();
+							msg.setData(dataBundle);
+							msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
+							dataBundle.putString("RESULT", sb.toString());
+							handler.sendMessage(msg);
+							Log.e(TAG, sb.toString());
 						}
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, e.getMessage(), e);
 					}
 				}
 
 				@Override
 				public void onInvokerError(final String e) {
+					Log.e(TAG, "访问异常", new Exception());
 				}
 
 			});
 
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e(TAG, e.getMessage(), e);
 		}
 	}
 

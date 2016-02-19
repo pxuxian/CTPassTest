@@ -2,10 +2,13 @@ package com.ailk.obs.ctpass.manage;
 
 import org.json.JSONObject;
 
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
+import com.ailk.obs.ctpass.constant.Constants;
 
 public class AuthTokenTask implements Runnable {
 	private AsyncProvider mAsyncProvider;
@@ -35,6 +38,11 @@ public class AuthTokenTask implements Runnable {
 
 	@Override
 	public void run() {
+		final Message msg = new Message();
+		final Bundle dataBundle = new Bundle();
+		msg.setData(dataBundle);
+		msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
+
 		if (seqId == null && random == null) {
 			return;
 		}
@@ -52,42 +60,45 @@ public class AuthTokenTask implements Runnable {
 				JSONObject obj = (JSONObject) response;
 				try {
 					if (obj == null) {
-						// reportToast("返回值null");
+						return;
 					}
 
 					String result = obj.getString("Result");
 
-					// reportToast(result);
 					String cr = System.getProperty("line.separator");
 					if (result.equals("0")) {
 						removeCallbacks();
 						StringBuilder sb = new StringBuilder();
 						sb.append("SeqID:").append(seqId).append(cr);
 						sb.append("Random:").append(random).append(cr);
-						sb.append("认证成功");
-						// reportToast("认证成功");
-						// showAlert("OTA Auth认证", sb.toString());
+
+						// handler处理
+						dataBundle.putString("RESULT", "认证成功  " + sb.toString());
+						dataBundle.putBoolean("flag", true);
+						handler.sendMessage(msg);
 					} else if (result.equals("2")) {
 						removeCallbacks();
 						StringBuilder sb = new StringBuilder();
 						sb.append("SeqID:").append(seqId).append(cr);
 						sb.append("Random:").append(random).append(cr);
-						sb.append("认证失败");
-						// showAlert("OTA Auth认证", sb.toString());
+						// handler处理
+						dataBundle.putString("RESULT", "检查认证结果失败  " + sb.toString());
+						handler.sendMessage(msg);
 					} else {
 						invokeCount = invokeCount + 1;
-						// reportToast("等待认证结果..." + invokeCount + "次");
-						if (invokeCount >= 11) {
+						if (invokeCount >= 3) {
 							removeCallbacks();
 						}
 						postDelayedTask(3 * 1000);// 设置延迟时间
 					}
 
 				} catch (Exception e) {
-					// reportToast("调用认证结果检查接口异常" + e.getMessage());
+					// handler处理
+					dataBundle.putString("RESULT", "调用认证结果检查接口异常" + e.getMessage());
+					handler.sendMessage(msg);
 				}
 
-				if (invokeCount >= 10) {
+				if (invokeCount >= 3) {
 					handler.removeCallbacks(null, this);
 				}
 

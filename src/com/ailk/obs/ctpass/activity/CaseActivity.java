@@ -60,6 +60,16 @@ public class CaseActivity extends Activity {
 					mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);
 				}
 				break;
+				
+			case 3:
+				showAlert("TokenByOTA认证服务器返回: ", msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("flag")) {
+					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_RED);
+				}
+				
+				break;
 			default:
 				break;
 			}

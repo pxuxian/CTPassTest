@@ -61,9 +61,10 @@ public final class R {
     }
     public static final class id {
         public static final int all_test_tv=0x7f080003;
-        public static final int btn_debug=0x7f080010;
+        public static final int btn_Release=0x7f080010;
+        public static final int btn_debug=0x7f080011;
         public static final int btn_formal_astep=0x7f080007;
-        public static final int btn_test=0x7f080011;
+        public static final int btn_test=0x7f080012;
         public static final int btn_test_astep=0x7f080008;
         public static final int buttonBindService=0x7f080009;
         public static final int buttonConnectOMA=0x7f08000a;
