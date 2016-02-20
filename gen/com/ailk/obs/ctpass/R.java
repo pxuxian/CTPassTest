@@ -66,9 +66,9 @@ public final class R {
         public static final int btn_formal_astep=0x7f080007;
         public static final int btn_test=0x7f080012;
         public static final int btn_test_astep=0x7f080008;
-        public static final int buttonBindService=0x7f080009;
-        public static final int buttonConnectOMA=0x7f08000a;
-        public static final int buttonGenToken=0x7f08000b;
+        public static final int buttonBindService=0x7f08000a;
+        public static final int buttonConnectOMA=0x7f08000b;
+        public static final int buttonGenToken=0x7f08000c;
         public static final int buttonGenTokenByOTA=0x7f08000d;
         public static final int buttonGenTokenByOTANewPC=0x7f08000f;
         public static final int buttonGenTokenByOTAPC=0x7f08000e;
@@ -77,7 +77,7 @@ public final class R {
         public static final int onece_test_tv=0x7f080004;
         public static final int report_tv=0x7f080005;
         public static final int test_log_tv=0x7f080006;
-        public static final int textCellPhoneOTA=0x7f08000c;
+        public static final int textCellPhoneOTA=0x7f080009;
         public static final int user_tv=0x7f080000;
     }
     public static final class layout {

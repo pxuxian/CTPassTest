@@ -18,6 +18,23 @@
             android:background="@android:color/white"
             android:orientation="horizontal" >
 
+            <EditText
+                android:id="@+id/textCellPhoneOTA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="输入认证手机号码"
+                android:phoneNumber="true"
+                android:text=""
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,25 +122,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <EditText
-                android:id="@+id/textCellPhoneOTA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="输入认证手机号码(OTA认证必填)"
-                android:phoneNumber="true"
-                android:text=""
-                android:textSize="16dp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

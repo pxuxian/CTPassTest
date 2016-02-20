@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -107,10 +105,6 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
 		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
 
-		TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-		String s = tm.getLine1Number();
-		mEditTextCellPhoneAuth.setText(tm.getLine1Number());
-
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -171,9 +165,24 @@ public class CaseActivity extends Activity {
 			}
 
 		}
-		mButtonAuthTokenByOTA.setOnClickListener(new OATListener("0"));
-		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
-		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
+		mButtonAuthTokenByOTA.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					authTokenManage.authTokenOTA(cellPhone, "0", serviceConnection, mAsyncProvider, handler);
+				}
+			}
+			
+		});
+		
+//		mButtonAuthTokenByOTA.setOnClickListener(new OATListener("0"));
+//		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
+//		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 			@Override
