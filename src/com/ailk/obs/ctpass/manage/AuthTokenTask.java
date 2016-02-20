@@ -17,7 +17,7 @@ public class AuthTokenTask implements Runnable {
 	private int invokeCount;
 	private String pcFlag;
 	private Handler handler;
-
+	
 	public AuthTokenTask(AsyncProvider mAsyncProvider, String seqId, String random, String pcFlag, Handler handler) {
 		this.mAsyncProvider = mAsyncProvider;
 		this.seqId = seqId;
@@ -65,9 +65,7 @@ public class AuthTokenTask implements Runnable {
 					if (obj == null) {
 						return;
 					}
-
 					String result = obj.getString("Result");
-
 					String cr = System.getProperty("line.separator");
 					if (result.equals("0")) {
 						removeCallbacks();
@@ -102,7 +100,7 @@ public class AuthTokenTask implements Runnable {
 				}
 
 				if (invokeCount >= 3) {
-					handler.removeCallbacks(null, this);
+					removeCallbacks();
 				}
 
 			}

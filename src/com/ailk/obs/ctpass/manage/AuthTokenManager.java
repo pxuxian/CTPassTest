@@ -77,7 +77,6 @@ public class AuthTokenManager {
 						String resultString = resultJsonObject.getString("ResultCode");
 						if (resultString.equals("0")) {
 							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pcFlag, handler));
-							Log.e(TAG, sb.toString());
 						} else {
 							sb.append("认证失败  错误代码：").append(resultString);
 

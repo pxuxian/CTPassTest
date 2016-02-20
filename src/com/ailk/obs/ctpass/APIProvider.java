@@ -16,7 +16,7 @@ import android.util.Log;
 import com.ailk.obs.ctpass.util.ExceptionToString;
 
 @SuppressLint({ "SdCardPath", "SimpleDateFormat" })
-@SuppressWarnings({ "serial", "unused" })
+@SuppressWarnings({ "serial" })
 public class APIProvider implements Serializable {
 
 	/** 商用系统测试 */
@@ -32,31 +32,28 @@ public class APIProvider implements Serializable {
 	}
 
 	public JSONObject genSeqIDAndRandom() {
-        Log.d("DEBUG", this.hostURL + "GenReqAndRandom.aspx");
-        return this.httpGetInternal(this.hostURL + "GenReqAndRandom.aspx");
-    }
+		Log.d("DEBUG", hostURL + "GenReqAndRandom.aspx");
+		return this.httpGetInternal(hostURL + "GenReqAndRandom.aspx");
+	}
 
 	public JSONObject authToken(String s, String seqID, String random, String pcFlag) {
-		Log.d("DEBUG", this.hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random + "&PCFlag="
+		Log.d("DEBUG", hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random + "&PCFlag="
 				+ pcFlag);
-		return this.httpGetInternal(this.hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random
+		return this.httpGetInternal(hostURL + "CTPassAuth.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random
 				+ "&PCFlag=" + pcFlag);
 	}
 
 	public JSONObject authTokenByOTA(String mobile, String seqID, String random, String pcFlag) {
-		Log.d("DEBUG", this.hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID + "&Random=" + random
+		Log.d("DEBUG", hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID + "&Random=" + random
 				+ "&PCFlag=" + pcFlag);
-		return this.httpGetInternal(this.hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID
-				+ "&Random=" + random + "&PCFlag=" + pcFlag);
+		return this.httpGetInternal(hostURL + "CTPassAuthByOTA.aspx?Mobile=" + mobile + "&SeqID=" + seqID + "&Random="
+				+ random + "&PCFlag=" + pcFlag);
 	}
-	
+
 	public JSONObject checkResult(String seqID, String random) {
-        Log.d("DEBUG", this.hostURL + "CheckAuthResultForClient.aspx?SeqID="
-                + seqID + "&Random=" + random);
-        return this.httpGetInternal(this.hostURL
-                + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random="
-                + random);
-    }
+		Log.d("DEBUG", hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);
+		return this.httpGetInternal(hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);
+	}
 
 	private Object readResolve() {
 		return getInstance();
@@ -72,33 +69,31 @@ public class APIProvider implements Serializable {
 
 	// http
 	private JSONObject httpGetInternal(String url) {
-        HttpClient client = new DefaultHttpClient();
-        StringBuilder builder = new StringBuilder();
-        HttpGet httpGet = new HttpGet(url);
-        StringBuilder logBuilder = new StringBuilder();
-        logBuilder.append("请求参数:").append(url).append("\n");
-        try {
-            
-            HttpResponse httpResponse = client.execute(httpGet);
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(httpResponse.getEntity().getContent()));
-            for (String s = bufferedReader.readLine(); s != null; s = bufferedReader
-                    .readLine()) {
-                builder.append(s);
-            }
-            
-            bufferedReader.close();
-            logBuilder.append("请求响应:").append(builder).append("\n");
-            return new JSONObject(builder.toString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logBuilder.append("请求异常:")
-                    .append(ExceptionToString.converToStr(ex)).append("\n");
-        } finally {
-            Log.d("http", logBuilder.toString());
-        }
-        
-        return null;
-    }
+		HttpClient client = new DefaultHttpClient();
+		StringBuilder builder = new StringBuilder();
+		HttpGet httpGet = new HttpGet(url);
+		StringBuilder logBuilder = new StringBuilder();
+		logBuilder.append("请求参数:").append(url).append("\n");
+		try {
+
+			HttpResponse httpResponse = client.execute(httpGet);
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity()
+					.getContent()));
+			for (String s = bufferedReader.readLine(); s != null; s = bufferedReader.readLine()) {
+				builder.append(s);
+			}
+
+			bufferedReader.close();
+			logBuilder.append("请求响应:").append(builder).append("\n");
+			return new JSONObject(builder.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logBuilder.append("请求异常:").append(ExceptionToString.converToStr(ex)).append("\n");
+		} finally {
+			Log.d("http", logBuilder.toString());
+		}
+
+		return null;
+	}
 
 }

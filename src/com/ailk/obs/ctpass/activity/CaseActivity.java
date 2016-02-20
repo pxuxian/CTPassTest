@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -66,26 +68,19 @@ public class CaseActivity extends Activity {
 
 			case 3:
 				showAlert("TokenByOTA认证服务器返回: ", msg.getData().getString("RESULT"));
-				int i= msg.arg1;
-				if (msg.getData().getBoolean("flag") && msg.arg1 == 0) {
-					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_GREEN);
-				} else if( msg.arg1 == 0) {
-					mButtonAuthTokenByOTA.setBackgroundColor(Constants.COLOR_RED);
+				Button button = null;
+				if (msg.arg1 == 0) {
+					button = mButtonAuthTokenByOTA;
+				} else if (msg.arg1 == 1) {
+					button = mButtonGenTokenByOTAPC;
+				} else {
+					button = mButtonGenTokenByOTANewPC;
 				}
-
-				
-				if (msg.getData().getBoolean("flag") && msg.arg1 == 1) {
-					mButtonGenTokenByOTAPC.setBackgroundColor(Constants.COLOR_GREEN);
-				} else if(msg.arg1 == 1) {
-					mButtonGenTokenByOTAPC.setBackgroundColor(Constants.COLOR_RED);
+				if (msg.getData().getBoolean("flag")) {
+					button.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					button.setBackgroundColor(Constants.COLOR_RED);
 				}
-
-				if (msg.getData().getBoolean("flag") && msg.arg1 == 2) {
-					mButtonGenTokenByOTANewPC.setBackgroundColor(Constants.COLOR_GREEN);
-				} else if( msg.arg1 == 2) {
-					mButtonGenTokenByOTANewPC.setBackgroundColor(Constants.COLOR_RED);
-				}
-
 				break;
 			default:
 				break;
@@ -111,6 +106,10 @@ public class CaseActivity extends Activity {
 		mButtonAuthTokenByOTA = (Button) findViewById(R.id.buttonGenTokenByOTA);
 		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
 		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
+
+		TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+		String s = tm.getLine1Number();
+		mEditTextCellPhoneAuth.setText(tm.getLine1Number());
 
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
@@ -152,23 +151,13 @@ public class CaseActivity extends Activity {
 			}
 		});
 
-		// Get TCPass Token(OTA方式无需PC码)
-		mButtonAuthTokenByOTA.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
-					authTokenManage.authTokenOTA(cellPhone, "0", serviceConnection, mAsyncProvider, handler);
-				}
-			}
-		});
+		class OATListener implements OnClickListener {
+			private String pcFlag;
 
-		// Get TCPass Token by pcCode(需要PC码)
-		mButtonGenTokenByOTAPC.setOnClickListener(new OnClickListener() {
+			public OATListener(String pcFlag) {
+				this.pcFlag = pcFlag;
+			}
+
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
@@ -177,28 +166,16 @@ public class CaseActivity extends Activity {
 						reportToast("请输入认证手机号");
 						return;
 					}
-					authTokenManage.authTokenOTA(cellPhone, "1", serviceConnection, mAsyncProvider, handler);
+					authTokenManage.authTokenOTA(cellPhone, pcFlag, serviceConnection, mAsyncProvider, handler);
 				}
 			}
-		});
-		
-		// Get TCPass Token by pcCode(需要新PC码)
-		mButtonGenTokenByOTANewPC.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
-					authTokenManage.authTokenOTA(cellPhone, "2", serviceConnection, mAsyncProvider, handler);
-				}
-			}
-		});
+
+		}
+		mButtonAuthTokenByOTA.setOnClickListener(new OATListener("0"));
+		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
+		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// 自动获取seqid等然后获取s串,再进行认证

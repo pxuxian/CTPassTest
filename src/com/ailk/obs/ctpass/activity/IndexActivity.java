@@ -23,9 +23,8 @@ public class IndexActivity extends Activity {
 	}
 
 	private void initView() {
-
 		RadioButton mButtonRelease = (RadioButton) findViewById(R.id.btn_Release);
-		this.onClickDebug(mButtonRelease);
+		this.onClickRelease(mButtonRelease);
 		mButtonRelease.setChecked(true);
 
 		mButtonGoTestCase = (Button) findViewById(R.id.btn_test);
