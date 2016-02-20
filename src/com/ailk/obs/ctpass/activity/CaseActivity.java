@@ -48,7 +48,7 @@ public class CaseActivity extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				showAlert("IsSupport 结果", msg.getData().getString("RESULT"));
+				reportToast("IsSupport 结果: " + msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("flag")) {
 					mButtonConnectOMA.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
@@ -56,7 +56,7 @@ public class CaseActivity extends Activity {
 				}
 				break;
 			case 2:
-				showAlert("Token认证服务器返回: ", msg.getData().getString("RESULT"));
+				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("flag")) {
 					mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
@@ -65,7 +65,7 @@ public class CaseActivity extends Activity {
 				break;
 
 			case 3:
-				showAlert("TokenByOTA认证服务器返回: ", msg.getData().getString("RESULT"));
+				reportToast(msg.getData().getString("RESULT"));
 				Button button = null;
 				if (msg.arg1 == 0) {
 					button = mButtonAuthTokenByOTA;
@@ -165,24 +165,9 @@ public class CaseActivity extends Activity {
 			}
 
 		}
-		mButtonAuthTokenByOTA.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
-					authTokenManage.authTokenOTA(cellPhone, "0", serviceConnection, mAsyncProvider, handler);
-				}
-			}
-			
-		});
-		
-//		mButtonAuthTokenByOTA.setOnClickListener(new OATListener("0"));
-//		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
-//		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
+		mButtonAuthTokenByOTA.setOnClickListener(new OATListener("0"));
+		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
+		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 			@Override

@@ -62,7 +62,7 @@ public class AuthTokenTask implements Runnable {
 						sendResult("第" + invokeCount + "次检查认证结果失败: " + result, false);
 					} else {
 						sendResult("第" + invokeCount + "次检查认证结果失败: " + result, false);
-						postDelayedTask(3 * 1000);// 设置延迟时间
+						postDelayedTask(4 * 1000);// 设置延迟时间
 					}
 				} catch (Exception e) {
 					sendResult("第" + invokeCount + "次调用认证结果检查接口异常" + e.getMessage(), false);
@@ -94,7 +94,7 @@ public class AuthTokenTask implements Runnable {
 		String cr = System.getProperty("line.separator");
 		StringBuilder sb = new StringBuilder();
 		sb.append("SeqID:").append(seqId).append(cr);
-		sb.append("Random:").append(random).append(cr);
+		sb.append("Random:").append(random);
 
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("RESULT", str + cr + sb.toString());
