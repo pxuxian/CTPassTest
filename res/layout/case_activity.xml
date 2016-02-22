@@ -27,8 +27,8 @@
                 android:phoneNumber="true"
                 android:text=""
                 android:textSize="16dp" />
-            
-             <EditText
+
+            <EditText
                 android:id="@+id/textpcCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -225,6 +225,38 @@
 
             <Button
                 android:id="@+id/buttonGenTokenByOTANewPC"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Test" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="7" />
+
+            <TextView
+                android:layout_width="234dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="CTPass融合Token认证" />
+
+            <Button
+                android:id="@+id/buttonMixTokenAuth"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:gravity="center"

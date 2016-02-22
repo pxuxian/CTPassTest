@@ -100,6 +100,35 @@ public class AsyncProvider {
 
 	}
 
+	public void authMixToken(final String s, final String seqID, final String random, final String pcFlag,
+			final RequestListener listener) {
+		new AsyncTask<Void, Void, Object>() {
+
+			@Override
+			protected Object doInBackground(Void... params) {
+				try {
+					JSONObject result = provider.authMixToken(s, seqID, random, pcFlag);
+					Log.d(TAG, "00001");
+					return result;
+				} catch (Exception e) {
+					Log.e("authMixToken", e.getMessage(), e);
+					return e;
+				}
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				super.onPostExecute(result);
+				if (result instanceof Exception) {
+					Exception e = (Exception) result;
+					listener.onInvokerError(e.getMessage());
+				} else {
+					listener.onComplete(result);
+				}
+			}
+		}.exe();
+	}
+
 	public void checkAuthResult(final String seqID, final String random, final RequestListener listener) {
 		new AsyncTask<Void, Void, Object>() {
 

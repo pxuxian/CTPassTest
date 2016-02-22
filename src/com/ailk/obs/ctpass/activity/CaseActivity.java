@@ -34,6 +34,7 @@ public class CaseActivity extends Activity {
 	private Button mButtonAuthTokenByOTA;
 	private Button mButtonGenTokenByOTAPC;
 	private Button mButtonGenTokenByOTANewPC;
+	private Button mButtonMixTokenAuth;
 
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
@@ -105,6 +106,8 @@ public class CaseActivity extends Activity {
 		mButtonAuthTokenByOTA = (Button) findViewById(R.id.buttonGenTokenByOTA);
 		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
 		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
+		mButtonMixTokenAuth = (Button) findViewById(R.id.buttonMixTokenAuth);
+
 		// 绑定服务
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
@@ -146,8 +149,7 @@ public class CaseActivity extends Activity {
 				mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
 			}
 		});
-		
-		
+
 		// get ctpass token by oma
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 			@Override
@@ -158,42 +160,6 @@ public class CaseActivity extends Activity {
 			}
 		});
 
-		/*
-		// get ctpass token by oma
-		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// 自动获取seqid等然后获取s串,再进行认证
-				mAsyncProvider.getSeqIDRandom(new RequestListener() {
-					@Override
-					public void onComplete(final Object response) {
-						final AuthToken authToken = authTokenManage.genarateAuthToken(response, "", serviceConnection);
-						String token = authToken == null ? null : authToken.toString();
-						new AlertDialog.Builder(CaseActivity.this).setTitle("Token参数").setMessage(token)
-								.setPositiveButton("验证token", new android.content.DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										authTokenManage.authTokenOnly(authToken, mAsyncProvider, handler);
-									}
-								}).setNegativeButton("取消", null).setCancelable(false).create().show();
-					}
-
-					@Override
-					public void onInvokerError(final String e) {
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								reportToast(e);
-								mButtomGetCTPassToken.setBackgroundColor(Constants.COLOR_RED);
-							}
-						});
-					}
-				});
-			}
-		});
-
-*/
 		// get ctpass token by ota
 		class OATListener implements OnClickListener {
 			private String pcFlag;
@@ -219,6 +185,14 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
 		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
+		// 融合Token认证无pc码
+		mButtonMixTokenAuth.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+
+			}
+		});
 	}
 
 	public void reportToast(String message) {

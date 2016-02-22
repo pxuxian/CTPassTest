@@ -50,6 +50,13 @@ public class APIProvider implements Serializable {
 				+ random + "&PCFlag=" + pcFlag);
 	}
 
+	public JSONObject authMixToken(String s, String seqID, String random, String pcFlag) {
+		Log.d("DEBUG", hostURL + "CTPassAuthComm.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random + "&PCFlag="
+				+ pcFlag);
+		return this.httpGetInternal(hostURL + "CTPassAuthComm.aspx?s=" + s + "&SeqID=" + seqID + "&Random=" + random
+				+ "&PCFlag=" + pcFlag);
+	}
+
 	public JSONObject checkResult(String seqID, String random) {
 		Log.d("DEBUG", hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);
 		return this.httpGetInternal(hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);
