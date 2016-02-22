@@ -27,7 +27,22 @@
                 android:phoneNumber="true"
                 android:text=""
                 android:textSize="16dp" />
+            
+             <EditText
+                android:id="@+id/textpcCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="输入PC码"
+                android:phoneNumber="true"
+                android:text=""
+                android:textSize="16dp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,6 +167,11 @@
                 android:text="Test" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -178,6 +198,11 @@
                 android:gravity="center"
                 android:text="Test" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
