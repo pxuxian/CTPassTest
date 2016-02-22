@@ -16,7 +16,7 @@ import com.ailk.obs.ctpass.util.LocalConfig;
 public class AuthTokenManager {
 	private static final String TAG = AuthTokenManager.class.getSimpleName();
 
-	public void authTokenOMA(final String cellPhone, final String pcFlag,
+	public void authTokenOMA(
 			final BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider, final Handler handler) {
 
 		mAsyncProvider.getSeqIDRandom(new RequestListener() {

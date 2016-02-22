@@ -19,7 +19,7 @@ public class HandlerUtil {
 	}
 
 	public static void send(Handler handler, int what, String dataKey, String data) {
-		send(handler, what, dataKey, dataKey, null, false);
+		send(handler, what, dataKey, data, null, false);
 	}
 
 	private static void send(Handler handler, int what, String dataKey, String data, String resultKey,

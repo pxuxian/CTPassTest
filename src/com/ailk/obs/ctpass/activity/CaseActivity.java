@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -18,13 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.AsyncProvider;
-import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
 import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
-import com.ailk.obs.ctpass.module.AuthToken;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 
 public class CaseActivity extends Activity {
@@ -149,7 +146,19 @@ public class CaseActivity extends Activity {
 				mButtonConnectOMA.setBackgroundColor(Constants.COLOR_RED);
 			}
 		});
+		
+		
+		// get ctpass token by oma
+		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
+				}
+			}
+		});
 
+		/*
 		// get ctpass token by oma
 		mButtomGetCTPassToken.setOnClickListener(new OnClickListener() {
 
@@ -184,6 +193,7 @@ public class CaseActivity extends Activity {
 			}
 		});
 
+*/
 		// get ctpass token by ota
 		class OATListener implements OnClickListener {
 			private String pcFlag;
