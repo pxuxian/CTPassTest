@@ -2,13 +2,12 @@ package com.ailk.obs.ctpass.manage;
 
 import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
 import com.ailk.obs.ctpass.constant.Constants;
+import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AuthTokenTask implements Runnable {
 	private static final int MAX_INVOKE_COUNT = 10;
@@ -29,24 +28,10 @@ public class AuthTokenTask implements Runnable {
 
 	@Override
 	public void run() {
-		final Message msg = new Message();
-		final Bundle dataBundle = new Bundle();
-		msg.setData(dataBundle);
-		msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
-		msg.arg1 = Integer.valueOf(pcFlag);
-
 		if (seqId == null && random == null) {
 			return;
 		}
-
 		mAsyncProvider.checkAuthResult(seqId, random, new RequestListener() {
-			@Override
-			public void onInvokerError(String e) {
-				if (invokeCount >= 10) {
-					removeCallbacks();
-				}
-			}
-
 			@Override
 			public void onComplete(final Object response) {
 				JSONObject obj = (JSONObject) response;
@@ -73,6 +58,13 @@ public class AuthTokenTask implements Runnable {
 				}
 
 			}
+
+			@Override
+			public void onInvokerError(String e) {
+				if (invokeCount >= 10) {
+					removeCallbacks();
+				}
+			}
 		});
 
 	}
@@ -87,20 +79,11 @@ public class AuthTokenTask implements Runnable {
 	}
 
 	public void sendResult(String str, boolean flag) {
-		Message msg = new Message();
-		msg.what = Constants.HandlerCase.AUTH_TOKEN_OTA;
-		msg.arg1 = Integer.valueOf(pcFlag);
-
 		String cr = System.getProperty("line.separator");
 		StringBuilder sb = new StringBuilder();
 		sb.append("SeqID:").append(seqId).append(cr);
 		sb.append("Random:").append(random);
-
-		Bundle dataBundle = new Bundle();
-		dataBundle.putString("RESULT", str + cr + sb.toString());
-		dataBundle.putBoolean("flag", flag);
-		msg.setData(dataBundle);
-		handler.sendMessage(msg);
+		HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN_OTA, str + cr + sb.toString(), flag, pcFlag);
 	}
 
 }
