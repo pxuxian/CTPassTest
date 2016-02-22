@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="测试时间点" />
+                android:text="15:21:22" />
 
             <View
                 android:layout_width="1px"
@@ -51,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="成功数/总数（单步测试）" />
+                android:text="4/7（单步:成功数/总数）" />
         </LinearLayout>
 
         <View
@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="测试时间点" />
+                android:text="16:21:22" />
 
             <View
                 android:layout_width="1px"
@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="成功数/总数（一步测试）" />
+                android:text="5/7（一步:成功数/总数）" />
         </LinearLayout>
     </LinearLayout>
 

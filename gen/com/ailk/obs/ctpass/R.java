@@ -87,6 +87,7 @@ public final class R {
         public static final int astep_activity=0x7f030001;
         public static final int case_activity=0x7f030002;
         public static final int index_activity=0x7f030003;
+        public static final int report_activity=0x7f030004;
     }
     public static final class string {
         public static final int action_settings=0x7f060002;

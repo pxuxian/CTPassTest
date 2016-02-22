@@ -55,7 +55,9 @@ public class MainTestActivity extends Activity implements OnClickListener {
 			case R.id.onece_test_tv:
 				LogUtil.write("test....");
 				startActivity(new Intent(MainTestActivity.this, AStepActivity.class));
+				break;
 			case R.id.report_tv:
+				startActivity(new Intent(MainTestActivity.this, ReportActivity.class));
 				break;
 			case R.id.test_log_tv:
 				break;
