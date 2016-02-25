@@ -4,7 +4,6 @@ import java.net.URLEncoder;
 
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
@@ -21,8 +20,8 @@ import com.ailk.obs.ctpass.util.TimestampUtil;
 public class AuthMixTokenManager {
 	private Handler handler;
 	private AsyncProvider mAsyncProvider;
-	private String seqId;
-	private String random;
+	private  String seqId;
+	private  String random;
 	private String pcFlag;
 	private static final String APP_ID = LocalConfig.DEVICE_NO;
 	private static final String TAG = AuthMixTokenManager.class.getSimpleName();
@@ -32,15 +31,14 @@ public class AuthMixTokenManager {
 		this.mAsyncProvider = mAsyncProvider;
 	}
 
-	public void authMixToken(final String pcFlag, final BindServiceConnection serviceConnection, Context context) {
+	public void authMixToken(final String pcFlag, final BindServiceConnection serviceConnection) {
 
 		mAsyncProvider.getSeqIDRandom(new RequestListener() {
 			@Override
 			public void onComplete(Object seqIDAndRadomResponse) {
 				try {
 					JSONObject obj = (JSONObject) seqIDAndRadomResponse;
-					JSONObject resultJsonObject;
-					resultJsonObject = obj.getJSONObject("GenReqAndRandomResponse");
+					JSONObject resultJsonObject = obj.getJSONObject("GenReqAndRandomResponse");
 					seqId = resultJsonObject.getString("SeqID");
 					random = resultJsonObject.getString("Random");
 					// 获取融合token

@@ -267,6 +267,49 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="8" />
+
+            <TextView
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="OTP认证OMA方式GET OTP" />
+
+            <EditText
+                android:id="@+id/etOTPLength"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="left"
+                android:hint="位数"
+                android:inputType="numberSigned"
+                android:text=""
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/buttonGenOTP"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Test" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" />
     </LinearLayout>
 
 </RelativeLayout>

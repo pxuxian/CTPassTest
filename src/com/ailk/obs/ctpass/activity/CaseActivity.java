@@ -19,13 +19,14 @@ import android.widget.TextView;
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
+import com.ailk.obs.ctpass.manage.AuthMixTokenManager;
 import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
+import com.ailk.obs.ctpass.manage.OTPManager;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 
 public class CaseActivity extends Activity {
-	private AsyncProvider mAsyncProvider;
 	private Builder mAlertDialog;
 	private Button mButtonBindService;
 	private Button mButtonConnectOMA;
@@ -35,9 +36,12 @@ public class CaseActivity extends Activity {
 	private Button mButtonGenTokenByOTAPC;
 	private Button mButtonGenTokenByOTANewPC;
 	private Button mButtonMixTokenAuth;
-
+	private Button mButtonGenOTP;
+	private EditText etOMAOTPLength;
+	private AsyncProvider mAsyncProvider = new AsyncProvider();
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
+	private OTPManager oTPManager = new OTPManager();
 
 	// TOKEN OTA认证，检查认证结果
 	@SuppressLint("HandlerLeak")
@@ -88,6 +92,7 @@ public class CaseActivity extends Activity {
 		};
 	};
 	private BindServiceConnection serviceConnection = new BindServiceConnection(handler);
+	private AuthMixTokenManager authMixTokenManager = new AuthMixTokenManager(handler, mAsyncProvider);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +102,6 @@ public class CaseActivity extends Activity {
 	}
 
 	private void initView() {
-		mAsyncProvider = new AsyncProvider();
 		mAlertDialog = new AlertDialog.Builder(this);
 		mButtonBindService = (Button) findViewById(R.id.buttonBindService);
 		mButtonConnectOMA = (Button) findViewById(R.id.buttonConnectOMA);
@@ -107,6 +111,8 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
 		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
 		mButtonMixTokenAuth = (Button) findViewById(R.id.buttonMixTokenAuth);
+		mButtonGenOTP = (Button) findViewById(R.id.buttonGenOTP);
+		etOMAOTPLength = (EditText) findViewById(R.id.etOTPLength);
 
 		// 绑定服务
 		mButtonBindService.setOnClickListener(new OnClickListener() {
@@ -188,11 +194,33 @@ public class CaseActivity extends Activity {
 		// 融合Token认证无pc码
 		mButtonMixTokenAuth.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				
+			public void onClick(View view) {
+				authMixTokenManager.authMixToken("0", serviceConnection);
 
 			}
 		});
+
+		// OTP认证
+		mButtonGenOTP.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+
+					int otpLength = -1;
+					try {
+						otpLength = Integer.parseInt(etOMAOTPLength.getText().toString().trim());
+					} catch (Exception e) {
+						showAlert("OTP长度转换错误", "OTP长度转换错误,请输入数字");
+						return;
+					}
+					oTPManager.getOTPByOMA(otpLength, serviceConnection, handler);
+				} else {
+					reportToast("请先绑定服务");
+				}
+			}
+		});
+
 	}
 
 	public void reportToast(String message) {
