@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.AsyncProvider.RequestListener;
-import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AuthTokenTask implements Runnable {
@@ -17,13 +16,16 @@ public class AuthTokenTask implements Runnable {
 	private int invokeCount;
 	private String pcFlag;
 	private Handler handler;
+	private int handlerCase;
 
-	public AuthTokenTask(AsyncProvider mAsyncProvider, String seqId, String random, String pcFlag, Handler handler) {
+	public AuthTokenTask(AsyncProvider mAsyncProvider, String seqId, String random, String pcFlag, Handler handler,
+			int handlerCase) {
 		this.mAsyncProvider = mAsyncProvider;
 		this.seqId = seqId;
 		this.random = random;
 		this.pcFlag = pcFlag;
 		this.handler = handler;
+		this.handlerCase = handlerCase;
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class AuthTokenTask implements Runnable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SeqID:").append(seqId).append(cr);
 		sb.append("Random:").append(random);
-		HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN_OTA, str + cr + sb.toString(), flag, pcFlag);
+		HandlerUtil.send(handler, handlerCase, str + cr + sb.toString(), flag, pcFlag);
 	}
 
 }

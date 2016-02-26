@@ -16,8 +16,8 @@ import com.ailk.obs.ctpass.util.LocalConfig;
 public class AuthTokenManager {
 	private static final String TAG = AuthTokenManager.class.getSimpleName();
 
-	public void authTokenOMA(
-			final BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider, final Handler handler) {
+	public void authTokenOMA(final BindServiceConnection serviceConnection, final AsyncProvider mAsyncProvider,
+			final Handler handler) {
 
 		mAsyncProvider.getSeqIDRandom(new RequestListener() {
 			@Override
@@ -133,7 +133,8 @@ public class AuthTokenManager {
 						JSONObject resultJsonObject = obj.getJSONObject("AuthCTPassTokenByOTAResponse");
 						String resultString = resultJsonObject.getString("ResultCode");
 						if (resultString.equals("0")) {
-							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pcFlag, handler));
+							handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pcFlag, handler,
+									Constants.CASE_AUTH_TOKEN_OTA));
 						} else {
 							sb.append("认证失败  错误代码：").append(resultString);
 							HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN_OTA, sb.toString(), false, pcFlag);

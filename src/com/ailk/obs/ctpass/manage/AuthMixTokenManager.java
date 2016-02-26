@@ -45,13 +45,14 @@ public class AuthMixTokenManager {
 					serviceConnection.getCtpassAIDLService().getMixedTokenM(APP_ID, seqId, random, pCFlagString,
 							mixTokenCallBack);
 				} catch (Exception e) {
+					HandlerUtil.send(handler, Constants.CASE_AUTH_MixToken, "访问异常：" + e, false);
 					Log.e(TAG, e.getMessage(), e);
 				}
 			}
 
 			@Override
 			public void onInvokerError(String e) {
-				HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "访问异常：" + e, false);
+				HandlerUtil.send(handler, Constants.CASE_AUTH_MixToken, "访问异常：" + e, false);
 			}
 		});
 	}
@@ -87,22 +88,27 @@ public class AuthMixTokenManager {
 								int resultCode = resultJsonObject.getInt("ResultCode");
 								if (resultCode == 85) {
 									logSB.append("\n认证方式为OTA,等待认证结果");
-									handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pCFlagString, handler));
+									handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pCFlagString,
+											handler, Constants.CASE_AUTH_TOKEN_OTA));
+								} else {
+									HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN_OTA, "认证失败错误代码为：" + resultCode,
+											false);
 								}
 								HandlerUtil.send(handler, Constants.CASE_TOAST, "MSG",
 										"Token认证服务器返回" + logSB.toString());
 							} catch (Exception e) {
 								Log.e(TAG, e.getMessage(), e);
+								HandlerUtil.send(handler,  Constants.CASE_AUTH_TOKEN_OTA, "访问异常：" + e, false);
 							}
 						}
 
 						@Override
 						public void onInvokerError(final String e) {
-							HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "访问异常：" + e);
+							HandlerUtil.send(handler,  Constants.CASE_AUTH_TOKEN_OTA, "访问异常：" + e);
 						}
 					});
 		} catch (Exception e) {
-			HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "发生异常：" + ExceptionToString.converToStr(e));
+			HandlerUtil.send(handler,  Constants.CASE_AUTH_TOKEN_OTA, "发生异常：" + ExceptionToString.converToStr(e));
 		}
 	}
 

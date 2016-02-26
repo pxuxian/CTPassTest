@@ -2,8 +2,6 @@ package com.ailk.obs.ctpass.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -14,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.AsyncProvider;
@@ -27,7 +26,6 @@ import com.ailk.obs.ctpass.manage.OTPManager;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 
 public class CaseActivity extends Activity {
-	private Builder mAlertDialog;
 	private Button mButtonBindService;
 	private Button mButtonConnectOMA;
 	private Button mButtomGetCTPassToken;
@@ -37,12 +35,12 @@ public class CaseActivity extends Activity {
 	private Button mButtonGenTokenByOTANewPC;
 	private Button mButtonMixTokenAuth;
 	private Button mButtonMixTokenAuthByPC;
+	private Integer etOMAOTPLength;
 	private Button mButtonGenOTP;
-	private EditText etOMAOTPLength;
+	private Button mButtonGenMixOTP;
 	private AsyncProvider mAsyncProvider = new AsyncProvider();
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
-	private OTPManager oTPManager = new OTPManager();
 
 	// TOKEN OTA认证，检查认证结果
 	@SuppressLint("HandlerLeak")
@@ -73,20 +71,36 @@ public class CaseActivity extends Activity {
 
 			case Constants.CASE_AUTH_TOKEN_OTA:
 				reportToast(msg.getData().getString("RESULT"));
-				Button button = null;
+				Button buttonToken = null;
 				if (msg.arg1 == 0) {
-					button = mButtonAuthTokenByOTA;
+					buttonToken = mButtonAuthTokenByOTA;
 				} else if (msg.arg1 == 1) {
-					button = mButtonGenTokenByOTAPC;
+					buttonToken = mButtonGenTokenByOTAPC;
 				} else {
-					button = mButtonGenTokenByOTANewPC;
+					buttonToken = mButtonGenTokenByOTANewPC;
 				}
 				if (msg.getData().getBoolean("FLAG")) {
-					button.setBackgroundColor(Constants.COLOR_GREEN);
+					buttonToken.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
-					button.setBackgroundColor(Constants.COLOR_RED);
+					buttonToken.setBackgroundColor(Constants.COLOR_RED);
 				}
 				break;
+
+			case Constants.CASE_AUTH_MixToken:
+				reportToast(msg.getData().getString("RESULT"));
+				Button buttonMixToken = null;
+				if (msg.arg1 == 0) {
+					buttonMixToken = mButtonMixTokenAuth;
+				} else if (msg.arg1 == 1) {
+					buttonMixToken = mButtonMixTokenAuthByPC;
+				}
+				if (msg.getData().getBoolean("FLAG")) {
+					buttonMixToken.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					buttonMixToken.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+
 			default:
 				break;
 			}
@@ -94,6 +108,7 @@ public class CaseActivity extends Activity {
 	};
 	private BindServiceConnection serviceConnection = new BindServiceConnection(handler);
 	private AuthMixTokenManager authMixTokenManager = new AuthMixTokenManager(handler, mAsyncProvider);
+	private OTPManager oTPManager = new OTPManager(handler);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +118,6 @@ public class CaseActivity extends Activity {
 	}
 
 	private void initView() {
-		mAlertDialog = new AlertDialog.Builder(this);
 		mButtonBindService = (Button) findViewById(R.id.buttonBindService);
 		mButtonConnectOMA = (Button) findViewById(R.id.buttonConnectOMA);
 		mButtomGetCTPassToken = (Button) findViewById(R.id.buttonGenToken);
@@ -114,7 +128,12 @@ public class CaseActivity extends Activity {
 		mButtonMixTokenAuth = (Button) findViewById(R.id.buttonMixTokenAuth);
 		mButtonMixTokenAuthByPC = (Button) findViewById(R.id.buttonMixTokenAuthByPC);
 		mButtonGenOTP = (Button) findViewById(R.id.buttonGenOTP);
-		etOMAOTPLength = (EditText) findViewById(R.id.etOTPLength);
+		mButtonGenMixOTP = (Button) findViewById(R.id.buttonGenMixOTP);
+
+		// 默认动态口令长度为6
+		RadioButton mButtonOMAOTPLength = (RadioButton) findViewById(R.id.btn_etOTPLength6);
+		this.onClickOTPLength6(mButtonOMAOTPLength);
+		mButtonOMAOTPLength.setChecked(true);
 
 		// 绑定服务
 		mButtonBindService.setOnClickListener(new OnClickListener() {
@@ -222,21 +241,24 @@ public class CaseActivity extends Activity {
 		mButtonMixTokenAuth.setOnClickListener(new OATPCListener("0"));
 		mButtonMixTokenAuthByPC.setOnClickListener(new OATPCListener("1"));
 
-		// OTP认证
+		// GET OTP认证
 		mButtonGenOTP.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
+					oTPManager.getOTPByOMA(etOMAOTPLength, serviceConnection);
+				} else {
+					reportToast("请先绑定服务");
+				}
+			}
+		});
 
-					int otpLength = -1;
-					try {
-						otpLength = Integer.parseInt(etOMAOTPLength.getText().toString().trim());
-					} catch (Exception e) {
-						showAlert("OTP长度转换错误", "OTP长度转换错误,请输入数字");
-						return;
-					}
-					oTPManager.getOTPByOMA(otpLength, serviceConnection, handler);
+		// GET MIX OTP
+		mButtonGenMixOTP.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					oTPManager.getOTPMixByOMA(etOMAOTPLength, "0", serviceConnection);
 				} else {
 					reportToast("请先绑定服务");
 				}
@@ -245,12 +267,20 @@ public class CaseActivity extends Activity {
 
 	}
 
-	public void reportToast(String message) {
-		ActivityUtil.reportToast(this, message);
+	public void onClickOTPLength6(View view) {
+		this.etOMAOTPLength = 6;
 	}
 
-	public void showAlert(String title, String message) {
-		mAlertDialog.setTitle(title).setMessage(message).setPositiveButton("确定", null).setCancelable(false).show();
+	public void onClickOTPLength7(View view) {
+		this.etOMAOTPLength = 7;
+	}
+
+	public void onClickOTPLength8(View view) {
+		this.etOMAOTPLength = 8;
+	}
+
+	public void reportToast(String message) {
+		ActivityUtil.reportToast(this, message);
 	}
 
 	@Override
@@ -264,5 +294,4 @@ public class CaseActivity extends Activity {
 		} catch (Exception e) {
 		}
 	}
-
 }
