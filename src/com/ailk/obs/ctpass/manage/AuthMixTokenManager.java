@@ -22,7 +22,7 @@ public class AuthMixTokenManager {
 	private AsyncProvider mAsyncProvider;
 	private String seqId;
 	private String random;
-	private String pcFlag;
+	private String pCFlagString = "";
 	private static final String APP_ID = LocalConfig.DEVICE_NO;
 	private static final String TAG = AuthMixTokenManager.class.getSimpleName();
 
@@ -31,8 +31,8 @@ public class AuthMixTokenManager {
 		this.mAsyncProvider = mAsyncProvider;
 	}
 
-	public void authMixToken(final String pcFlag, final BindServiceConnection serviceConnection) {
-
+	public void authMixToken(final String pCFlag, final BindServiceConnection serviceConnection) {
+		pCFlagString = pCFlag;
 		mAsyncProvider.getSeqIDRandom(new RequestListener() {
 			@Override
 			public void onComplete(Object seqIDAndRadomResponse) {
@@ -42,7 +42,7 @@ public class AuthMixTokenManager {
 					seqId = resultJsonObject.getString("SeqID");
 					random = resultJsonObject.getString("Random");
 					// 获取融合token
-					serviceConnection.getCtpassAIDLService().getMixedTokenM(APP_ID, seqId, random, pcFlag,
+					serviceConnection.getCtpassAIDLService().getMixedTokenM(APP_ID, seqId, random, pCFlagString,
 							mixTokenCallBack);
 				} catch (Exception e) {
 					Log.e(TAG, e.getMessage(), e);
@@ -74,7 +74,7 @@ public class AuthMixTokenManager {
 
 	private void authMixTokenResult(final String mixToken, final StringBuilder logSB) {
 		try {
-			mAsyncProvider.authMixToken(URLEncoder.encode(mixToken, "UTF-8"), seqId, random, pcFlag,
+			mAsyncProvider.authMixToken(URLEncoder.encode(mixToken, "UTF-8"), seqId, random, pCFlagString,
 					new RequestListener() {
 						@Override
 						public void onComplete(final Object response) {
@@ -87,7 +87,7 @@ public class AuthMixTokenManager {
 								int resultCode = resultJsonObject.getInt("ResultCode");
 								if (resultCode == 85) {
 									logSB.append("\n认证方式为OTA,等待认证结果");
-									handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pcFlag, handler));
+									handler.post(new AuthTokenTask(mAsyncProvider, seqId, random, pCFlagString, handler));
 								}
 								HandlerUtil.send(handler, Constants.CASE_TOAST, "MSG",
 										"Token认证服务器返回" + logSB.toString());

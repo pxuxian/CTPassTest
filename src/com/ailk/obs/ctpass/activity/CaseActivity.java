@@ -36,6 +36,7 @@ public class CaseActivity extends Activity {
 	private Button mButtonGenTokenByOTAPC;
 	private Button mButtonGenTokenByOTANewPC;
 	private Button mButtonMixTokenAuth;
+	private Button mButtonMixTokenAuthByPC;
 	private Button mButtonGenOTP;
 	private EditText etOMAOTPLength;
 	private AsyncProvider mAsyncProvider = new AsyncProvider();
@@ -111,6 +112,7 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTAPC = (Button) findViewById(R.id.buttonGenTokenByOTAPC);
 		mButtonGenTokenByOTANewPC = (Button) findViewById(R.id.buttonGenTokenByOTANewPC);
 		mButtonMixTokenAuth = (Button) findViewById(R.id.buttonMixTokenAuth);
+		mButtonMixTokenAuthByPC = (Button) findViewById(R.id.buttonMixTokenAuthByPC);
 		mButtonGenOTP = (Button) findViewById(R.id.buttonGenOTP);
 		etOMAOTPLength = (EditText) findViewById(R.id.etOTPLength);
 
@@ -162,6 +164,8 @@ public class CaseActivity extends Activity {
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
 					authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
+				} else {
+					reportToast("请先绑定服务");
 				}
 			}
 		});
@@ -183,6 +187,8 @@ public class CaseActivity extends Activity {
 						return;
 					}
 					authTokenManage.authTokenOTA(cellPhone, pcFlag, serviceConnection, mAsyncProvider, handler);
+				} else {
+					reportToast("请先绑定服务");
 				}
 			}
 
@@ -192,13 +198,29 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
 		// 融合Token认证无pc码
-		mButtonMixTokenAuth.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				authMixTokenManager.authMixToken("0", serviceConnection);
+		class OATPCListener implements OnClickListener {
+			private String pcFlag;
 
+			public OATPCListener(String pcFlag) {
+				this.pcFlag = pcFlag;
 			}
-		});
+
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					authMixTokenManager.authMixToken(pcFlag, serviceConnection);
+				} else {
+					reportToast("请先绑定服务");
+				}
+			}
+		}
+		mButtonMixTokenAuth.setOnClickListener(new OATPCListener("0"));
+		mButtonMixTokenAuthByPC.setOnClickListener(new OATPCListener("1"));
 
 		// OTP认证
 		mButtonGenOTP.setOnClickListener(new OnClickListener() {
