@@ -20,8 +20,8 @@ import com.ailk.obs.ctpass.util.TimestampUtil;
 public class AuthMixTokenManager {
 	private Handler handler;
 	private AsyncProvider mAsyncProvider;
-	private  String seqId;
-	private  String random;
+	private String seqId;
+	private String random;
 	private String pcFlag;
 	private static final String APP_ID = LocalConfig.DEVICE_NO;
 	private static final String TAG = AuthMixTokenManager.class.getSimpleName();
