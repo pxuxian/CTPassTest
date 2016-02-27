@@ -91,7 +91,7 @@ public class CaseActivity extends Activity {
 				Button buttonMixToken = null;
 				if (msg.arg1 == 0) {
 					buttonMixToken = mButtonMixTokenAuth;
-				} else if (msg.arg1 == 1) {
+				} else {
 					buttonMixToken = mButtonMixTokenAuthByPC;
 				}
 				if (msg.getData().getBoolean("FLAG")) {
@@ -216,7 +216,7 @@ public class CaseActivity extends Activity {
 		mButtonGenTokenByOTAPC.setOnClickListener(new OATListener("1"));
 		mButtonGenTokenByOTANewPC.setOnClickListener(new OATListener("2"));
 
-		// 融合Token认证无pc码
+		// 融合Token认证
 		class OATPCListener implements OnClickListener {
 			private String pcFlag;
 

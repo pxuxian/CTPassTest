@@ -11,7 +11,9 @@ public class Constants {
 	public static final int CASE_CONN = 1;
 	public static final int CASE_AUTH_TOKEN = 2;
 	public static final int CASE_AUTH_TOKEN_OTA = 3;
+	//融合token认证
 	public static final int CASE_AUTH_MixToken =4;
+	//OTP认证OMA方式
 	public static final int CASE_OTP_OMA=5;
 	public static final int CASE_OTP_MixOMA=6;
 	
