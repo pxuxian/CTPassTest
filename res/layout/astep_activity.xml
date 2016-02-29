@@ -4,6 +4,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="com.example.servicelife.MainActivity" >
+     <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/textCellPhoneOTA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:hint="输入认证手机号码"
+                    android:phoneNumber="true"
+                    android:text=""
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/textpcCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:hint="输入PC码"
+                    android:phoneNumber="true"
+                    android:text=""
+                    android:textSize="16dp" />
+            </LinearLayout>
 
     <Button
         android:id="@+id/btn_formal_astep"
