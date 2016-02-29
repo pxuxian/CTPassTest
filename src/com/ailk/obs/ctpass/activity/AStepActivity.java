@@ -37,6 +37,7 @@ public class AStepActivity extends Activity {
 		mButtonGoTest.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				ProgressDialogUtil.showProgress(AStepActivity.this, "测试环境正在测试中，请稍后。。。。");
 			}
 		});

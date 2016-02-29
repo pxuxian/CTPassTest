@@ -61,28 +61,28 @@ public final class R {
     }
     public static final class id {
         public static final int all_test_tv=0x7f080003;
-        public static final int btn_Release=0x7f08001c;
-        public static final int btn_debug=0x7f08001d;
-        public static final int btn_etOTPLength6=0x7f080013;
+        public static final int btn_Release=0x7f08000b;
+        public static final int btn_debug=0x7f08000c;
+        public static final int btn_etOTPLength6=0x7f080016;
         public static final int btn_formal_astep=0x7f080009;
-        public static final int btn_test=0x7f08001e;
+        public static final int btn_test=0x7f08000d;
         public static final int btn_test_astep=0x7f08000a;
-        public static final int buttonBindService=0x7f08000b;
-        public static final int buttonConnectOMA=0x7f08000c;
-        public static final int buttonGenMixOTP=0x7f080015;
-        public static final int buttonGenMixOTPByNewPC=0x7f080017;
-        public static final int buttonGenMixOTPByPC=0x7f080016;
-        public static final int buttonGenOTP=0x7f080014;
-        public static final int buttonGenOTPOTA=0x7f080018;
-        public static final int buttonGenOTPOTAByNewPC=0x7f08001a;
-        public static final int buttonGenOTPOTAByPC=0x7f080019;
-        public static final int buttonGenToken=0x7f08000d;
-        public static final int buttonGenTokenByOTA=0x7f08000e;
-        public static final int buttonGenTokenByOTANewPC=0x7f080010;
-        public static final int buttonGenTokenByOTAPC=0x7f08000f;
-        public static final int buttonMixTokenAuth=0x7f080011;
-        public static final int buttonMixTokenAuthByPC=0x7f080012;
-        public static final int buttonUpdatePC=0x7f08001b;
+        public static final int buttonBindService=0x7f08000e;
+        public static final int buttonConnectOMA=0x7f08000f;
+        public static final int buttonGenMixOTP=0x7f080018;
+        public static final int buttonGenMixOTPByNewPC=0x7f08001a;
+        public static final int buttonGenMixOTPByPC=0x7f080019;
+        public static final int buttonGenOTP=0x7f080017;
+        public static final int buttonGenOTPOTA=0x7f08001b;
+        public static final int buttonGenOTPOTAByNewPC=0x7f08001d;
+        public static final int buttonGenOTPOTAByPC=0x7f08001c;
+        public static final int buttonGenToken=0x7f080010;
+        public static final int buttonGenTokenByOTA=0x7f080011;
+        public static final int buttonGenTokenByOTANewPC=0x7f080013;
+        public static final int buttonGenTokenByOTAPC=0x7f080012;
+        public static final int buttonMixTokenAuth=0x7f080014;
+        public static final int buttonMixTokenAuthByPC=0x7f080015;
+        public static final int buttonUpdatePC=0x7f08001e;
         public static final int datetime_tv=0x7f080001;
         public static final int gd_ll=0x7f080002;
         public static final int onece_test_tv=0x7f080004;
@@ -95,9 +95,10 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int astep_activity=0x7f030001;
-        public static final int case_activity=0x7f030002;
-        public static final int index_activity=0x7f030003;
-        public static final int report_activity=0x7f030004;
+        public static final int astep_case_activity=0x7f030002;
+        public static final int case_activity=0x7f030003;
+        public static final int index_activity=0x7f030004;
+        public static final int report_activity=0x7f030005;
     }
     public static final class string {
         public static final int action_settings=0x7f060002;
