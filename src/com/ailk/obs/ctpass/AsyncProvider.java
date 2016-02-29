@@ -129,6 +129,35 @@ public class AsyncProvider {
 		}.exe();
 	}
 
+	public void genOTPByOTA(final String mobile, final String optLen, final String pcFlag,
+			final RequestListener listener) {
+		new AsyncTask<Void, Void, Object>() {
+
+			@Override
+			protected Object doInBackground(Void... params) {
+				try {
+					JSONObject result = provider.genOTPByOTA(mobile, optLen, pcFlag);
+					Log.d(TAG, "00001");
+					return result;
+				} catch (Exception e) {
+					Log.e("genOTPByOTA", e.getMessage(), e);
+					return e;
+				}
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				super.onPostExecute(result);
+				if (result instanceof Exception) {
+					Exception e = (Exception) result;
+					listener.onInvokerError(e.getMessage());
+				} else {
+					listener.onComplete(result);
+				}
+			}
+		}.exe();
+	}
+
 	public void checkAuthResult(final String seqID, final String random, final RequestListener listener) {
 		new AsyncTask<Void, Void, Object>() {
 

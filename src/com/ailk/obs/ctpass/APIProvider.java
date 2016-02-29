@@ -57,6 +57,12 @@ public class APIProvider implements Serializable {
 				+ "&PCFlag=" + pcFlag);
 	}
 
+	public JSONObject genOTPByOTA(String mobile, String optLen, String pcFlag) {
+		Log.d("DEBUG", this.hostURL + "GenOTP.aspx?Mobile=" + mobile + "&OTPLen=" + optLen + "&PCFlag=" + pcFlag);
+		return this.httpGetInternal(this.hostURL + "GenOTP.aspx?Mobile=" + mobile + "&OTPLen=" + optLen + "&PCFlag="
+				+ pcFlag);
+	}
+
 	public JSONObject checkResult(String seqID, String random) {
 		Log.d("DEBUG", hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);
 		return this.httpGetInternal(hostURL + "CheckAuthResultForClient.aspx?SeqID=" + seqID + "&Random=" + random);

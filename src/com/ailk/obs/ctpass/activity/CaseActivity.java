@@ -1,5 +1,6 @@
 package com.ailk.obs.ctpass.activity;
 
+import android.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -16,13 +17,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.AsyncProvider;
-import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.manage.AuthMixTokenManager;
 import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.manage.OTPManager;
+import com.ailk.obs.ctpass.manage.UpdatePCManager;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 
 public class CaseActivity extends Activity {
@@ -38,6 +39,12 @@ public class CaseActivity extends Activity {
 	private Integer etOMAOTPLength;
 	private Button mButtonGenOTP;
 	private Button mButtonGenMixOTP;
+	private Button mButtonGenMixOTPByPC;
+	private Button mButtonGenMixOTPByNewPC;
+	private Button mButtonGenOTPOTA;
+	private Button mButtonGenOTPOTAByPC;
+	private Button mButtonGenOTPOTAByNewPC;
+	private Button mButtonUpdatePC;
 	private AsyncProvider mAsyncProvider = new AsyncProvider();
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
@@ -53,7 +60,7 @@ public class CaseActivity extends Activity {
 				break;
 
 			case Constants.CASE_CONN:
-				reportToast("IsSupport 结果: " + msg.getData().getString("RESULT"));
+				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonConnectOMA.setBackgroundColor(Constants.COLOR_GREEN);
 				} else {
@@ -101,6 +108,57 @@ public class CaseActivity extends Activity {
 				}
 				break;
 
+			case Constants.CASE_OTP_OMA:
+				reportToast(msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("FLAG")) {
+					mButtonGenOTP.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtonGenOTP.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+
+			case Constants.CASE_OTP_MixOMA:
+				reportToast(msg.getData().getString("RESULT"));
+				Button buttonMixOMA = null;
+				if (msg.arg1 == 0) {
+					buttonMixOMA = mButtonGenMixOTP;
+				} else if (msg.arg1 == 1) {
+					buttonMixOMA = mButtonGenMixOTPByPC;
+				} else {
+					buttonMixOMA = mButtonGenMixOTPByNewPC;
+				}
+				if (msg.getData().getBoolean("FLAG")) {
+					buttonMixOMA.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					buttonMixOMA.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+
+			case Constants.CASE_OTP_OTA:
+				reportToast(msg.getData().getString("RESULT"));
+				Button buttonOTPOTA = null;
+				if (msg.arg1 == 0) {
+					buttonOTPOTA = mButtonGenOTPOTA;
+				} else if (msg.arg1 == 1) {
+					buttonOTPOTA = mButtonGenOTPOTAByPC;
+				} else {
+					buttonOTPOTA = mButtonGenOTPOTAByNewPC;
+				}
+				if (msg.getData().getBoolean("FLAG")) {
+					buttonOTPOTA.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					buttonOTPOTA.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+			case Constants.CASE_OTP_UpdatePC:
+				reportToast(msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("FLAG")) {
+					mButtonUpdatePC.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtonUpdatePC.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
+
 			default:
 				break;
 			}
@@ -108,7 +166,8 @@ public class CaseActivity extends Activity {
 	};
 	private BindServiceConnection serviceConnection = new BindServiceConnection(handler);
 	private AuthMixTokenManager authMixTokenManager = new AuthMixTokenManager(handler, mAsyncProvider);
-	private OTPManager oTPManager = new OTPManager(handler);
+	private OTPManager oTPManager = new OTPManager(handler, mAsyncProvider);
+	private UpdatePCManager updatePCManager = new UpdatePCManager(handler);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +188,12 @@ public class CaseActivity extends Activity {
 		mButtonMixTokenAuthByPC = (Button) findViewById(R.id.buttonMixTokenAuthByPC);
 		mButtonGenOTP = (Button) findViewById(R.id.buttonGenOTP);
 		mButtonGenMixOTP = (Button) findViewById(R.id.buttonGenMixOTP);
+		mButtonGenMixOTPByPC = (Button) findViewById(R.id.buttonGenMixOTPByPC);
+		mButtonGenMixOTPByNewPC = (Button) findViewById(R.id.buttonGenMixOTPByNewPC);
+		mButtonGenOTPOTA = (Button) findViewById(R.id.buttonGenOTPOTA);
+		mButtonGenOTPOTAByPC = (Button) findViewById(R.id.buttonGenOTPOTAByPC);
+		mButtonGenOTPOTAByNewPC = (Button) findViewById(R.id.buttonGenOTPOTAByNewPC);
+		mButtonUpdatePC = (Button) findViewById(R.id.buttonUpdatePC);
 
 		// 默认动态口令长度为6
 		RadioButton mButtonOMAOTPLength = (RadioButton) findViewById(R.id.btn_etOTPLength6);
@@ -241,7 +306,7 @@ public class CaseActivity extends Activity {
 		mButtonMixTokenAuth.setOnClickListener(new OATPCListener("0"));
 		mButtonMixTokenAuthByPC.setOnClickListener(new OATPCListener("1"));
 
-		// GET OTP认证
+		// GET OTP 认证 OMA 方式
 		mButtonGenOTP.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -253,18 +318,71 @@ public class CaseActivity extends Activity {
 			}
 		});
 
-		// GET MIX OTP
-		mButtonGenMixOTP.setOnClickListener(new OnClickListener() {
+		// GET MIX OTP认证
+		class OATPCMixListener implements OnClickListener {
+			private String pcFlag;
+
+			public OATPCMixListener(String pcFlag) {
+				this.pcFlag = pcFlag;
+			}
+
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
-					oTPManager.getOTPMixByOMA(etOMAOTPLength, "0", serviceConnection);
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					oTPManager.getOTPMixByOMA(etOMAOTPLength, pcFlag, serviceConnection);
+				} else {
+					reportToast("请先绑定服务");
+				}
+			}
+		}
+		mButtonGenMixOTP.setOnClickListener(new OATPCMixListener("0"));
+		mButtonGenMixOTPByPC.setOnClickListener(new OATPCMixListener("1"));
+		mButtonGenMixOTPByNewPC.setOnClickListener(new OATPCMixListener("2"));
+
+		// GET OTP 认证 OTA 方式
+		class OATPCOtaListener implements OnClickListener {
+			private String pcFlag;
+
+			public OATPCOtaListener(String pcFlag) {
+				this.pcFlag = pcFlag;
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+					if (cellPhone.equals("")) {
+						reportToast("请输入认证手机号");
+						return;
+					}
+					oTPManager.getOTPByOTA(cellPhone, etOMAOTPLength, pcFlag, serviceConnection);
+				} else {
+					reportToast("请先绑定服务");
+				}
+			}
+		}
+		mButtonGenOTPOTA.setOnClickListener(new OATPCOtaListener("0"));
+		mButtonGenOTPOTAByPC.setOnClickListener(new OATPCOtaListener("1"));
+		mButtonGenOTPOTAByNewPC.setOnClickListener(new OATPCOtaListener("2"));
+
+		//修改PC码
+		mButtonUpdatePC.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				if (serviceConnection.getCtpassAIDLService() != null) {
+					updatePCManager.updatePC(serviceConnection);
 				} else {
 					reportToast("请先绑定服务");
 				}
 			}
 		});
-
 	}
 
 	public void onClickOTPLength6(View view) {

@@ -49,7 +49,7 @@ public class BindServiceConnection implements ServiceConnection {
 		@Override
 		public void connectCTPassServiceCallBack(String result) {
 			try {
-				HandlerUtil.send(handler, Constants.CASE_CONN, result, "00".equals(result));
+				HandlerUtil.send(handler, Constants.CASE_CONN, "IsSupport 结果: " + result, "00".equals(result));
 				Log.d(TAG, "demo callback:" + result);
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage(), e);
