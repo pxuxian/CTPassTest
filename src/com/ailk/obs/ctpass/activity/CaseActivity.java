@@ -1,6 +1,5 @@
 package com.ailk.obs.ctpass.activity;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -17,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.AsyncProvider;
+import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.manage.AuthMixTokenManager;
 import com.ailk.obs.ctpass.manage.AuthTokenManager;

@@ -4,404 +4,607 @@
     android:layout_height="match_parent"
     android:layout_margin="5dp" >
 
-    <LinearLayout
-        android:id="@+id/gd_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:padding="1px" >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical" >
 
         <LinearLayout
+            android:id="@+id/gd_ll"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="1px" >
 
-            <EditText
-                android:id="@+id/textCellPhoneOTA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:hint="输入认证手机号码"
-                android:phoneNumber="true"
-                android:text=""
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/textpcCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:hint="输入PC码"
-                android:phoneNumber="true"
-                android:text=""
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="1" />
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Bind CTPass Service" />
+                <EditText
+                    android:id="@+id/textCellPhoneOTA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:hint="输入认证手机号码"
+                    android:phoneNumber="true"
+                    android:text=""
+                    android:textSize="16dp" />
 
-            <Button
-                android:id="@+id/buttonBindService"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/textpcCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:hint="输入PC码"
+                    android:phoneNumber="true"
+                    android:text=""
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="2" />
+                android:layout_height="1px"
+                android:background="@android:color/black" />
 
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="建立机卡连接" />
-
-            <Button
-                android:id="@+id/buttonConnectOMA"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="3" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Get CTPass Token(OMA)" />
-
-            <Button
-                android:id="@+id/buttonGenToken"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="4" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Get CTPass Token(OTA)" />
-
-            <Button
-                android:id="@+id/buttonGenTokenByOTA"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="5" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Get CTPass Token(OTA) By PC" />
-
-            <Button
-                android:id="@+id/buttonGenTokenByOTAPC"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="6" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="Get CTPass Token(OTA) By NewPC" />
-
-            <Button
-                android:id="@+id/buttonGenTokenByOTANewPC"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="7" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="CTPass融合Token认证" />
-
-            <Button
-                android:id="@+id/buttonMixTokenAuth"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="8" />
-
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="CTPass融合Token认证 By PC" />
-
-            <Button
-                android:id="@+id/buttonMixTokenAuthByPC"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="动态口令长度"
-                    android:textColor="#003399"
-                    android:textSize="16dp" />
+                    android:text="1" />
 
-                <RadioButton
-                    android:id="@+id/btn_etOTPLength6"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="234dp"
                     android:layout_height="wrap_content"
-                    android:onClick="onClickOTPLength6"
-                    android:text="6位"
-                    android:textColor="#003399" />
+                    android:gravity="left"
+                    android:text="Bind CTPass Service" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onClickOTPLength7"
-                    android:text="7位"
-                    android:textColor="#003399" />
+                <Button
+                    android:id="@+id/buttonBindService"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onClickOTPLength8"
-                    android:text="8位"
-                    android:textColor="#003399" />
-            </RadioGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="9" />
+                android:layout_height="1px"
+                android:background="@android:color/black" />
 
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="OTP认证OMA方式GET OTP" />
-
-            <Button
-                android:id="@+id/buttonGenOTP"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="10" />
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="OTP认证OMA方式GET MIX OTP" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="2" />
 
-            <Button
-                android:id="@+id/buttonGenMixOTP"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Test" />
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="建立机卡连接" />
+
+                <Button
+                    android:id="@+id/buttonConnectOMA"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="3" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Get CTPass Token(OMA)" />
+
+                <Button
+                    android:id="@+id/buttonGenToken"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="4" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Get CTPass Token(OTA)" />
+
+                <Button
+                    android:id="@+id/buttonGenTokenByOTA"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="5" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Get CTPass Token(OTA) By PC" />
+
+                <Button
+                    android:id="@+id/buttonGenTokenByOTAPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="6" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Get CTPass Token(OTA) By NewPC" />
+
+                <Button
+                    android:id="@+id/buttonGenTokenByOTANewPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="7" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="CTPass融合Token认证" />
+
+                <Button
+                    android:id="@+id/buttonMixTokenAuth"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="8" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="CTPass融合Token认证 By PC" />
+
+                <Button
+                    android:id="@+id/buttonMixTokenAuthByPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="动态口令长度"
+                        android:textColor="#003399"
+                        android:textSize="16dp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_etOTPLength6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickOTPLength6"
+                        android:text="6位"
+                        android:textColor="#003399" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickOTPLength7"
+                        android:text="7位"
+                        android:textColor="#003399" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickOTPLength8"
+                        android:text="8位"
+                        android:textColor="#003399" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="9" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OMA方式" />
+
+                <Button
+                    android:id="@+id/buttonGenOTP"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="10" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OMA方式 MIX" />
+
+                <Button
+                    android:id="@+id/buttonGenMixOTP"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="11" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OMA方式 MIX By PC" />
+
+                <Button
+                    android:id="@+id/buttonGenMixOTPByPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="12" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OMA方式 MIX By NewPC" />
+
+                <Button
+                    android:id="@+id/buttonGenMixOTPByNewPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="13" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OTA方式" />
+
+                <Button
+                    android:id="@+id/buttonGenOTPOTA"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="14" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OTA方式 By PC" />
+
+                <Button
+                    android:id="@+id/buttonGenOTPOTAByPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="15" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="OTP认证OTA方式 By NewPC" />
+
+                <Button
+                    android:id="@+id/buttonGenOTPOTAByNewPC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+            
+             <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="16" />
+
+                <TextView
+                    android:layout_width="234dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="修改PCd码/设置PC码" />
+
+                <Button
+                    android:id="@+id/buttonUpdatePC"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Test" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/black" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
