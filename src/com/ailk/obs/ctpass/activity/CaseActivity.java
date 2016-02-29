@@ -25,6 +25,7 @@ import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.manage.OTPManager;
 import com.ailk.obs.ctpass.manage.UpdatePCManager;
 import com.ailk.obs.ctpass.util.ActivityUtil;
+import com.ailk.obs.ctpass.util.SharedPreferencesWrapper;
 
 public class CaseActivity extends Activity {
 	private Button mButtonBindService;
@@ -45,6 +46,7 @@ public class CaseActivity extends Activity {
 	private Button mButtonGenOTPOTAByPC;
 	private Button mButtonGenOTPOTAByNewPC;
 	private Button mButtonUpdatePC;
+	private String currentMobileNumber;
 	private AsyncProvider mAsyncProvider = new AsyncProvider();
 	private BindServiceManager bindServiceManager = new BindServiceManager();
 	private AuthTokenManager authTokenManage = new AuthTokenManager();
@@ -200,10 +202,13 @@ public class CaseActivity extends Activity {
 		this.onClickOTPLength6(mButtonOMAOTPLength);
 		mButtonOMAOTPLength.setChecked(true);
 
+		this.initMobileNumber();
+
 		// 绑定服务
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				setMobileNumber();
 				boolean flag = bindServiceManager.getCTPassService(view.getContext(), serviceConnection);
 				if (flag) {
 					reportToast("绑定服务成功");
@@ -265,12 +270,8 @@ public class CaseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
-					authTokenManage.authTokenOTA(cellPhone, pcFlag, serviceConnection, mAsyncProvider, handler);
+					authTokenManage.authTokenOTA(currentMobileNumber, pcFlag, serviceConnection, mAsyncProvider,
+							handler);
 				} else {
 					reportToast("请先绑定服务");
 				}
@@ -292,11 +293,6 @@ public class CaseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
 					authMixTokenManager.authMixToken(pcFlag, serviceConnection);
 				} else {
 					reportToast("请先绑定服务");
@@ -329,11 +325,6 @@ public class CaseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
 					oTPManager.getOTPMixByOMA(etOMAOTPLength, pcFlag, serviceConnection);
 				} else {
 					reportToast("请先绑定服务");
@@ -355,12 +346,7 @@ public class CaseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (serviceConnection.getCtpassAIDLService() != null) {
-					final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-					if (cellPhone.equals("")) {
-						reportToast("请输入认证手机号");
-						return;
-					}
-					oTPManager.getOTPByOTA(cellPhone, etOMAOTPLength, pcFlag, serviceConnection);
+					oTPManager.getOTPByOTA(currentMobileNumber, etOMAOTPLength, pcFlag, serviceConnection);
 				} else {
 					reportToast("请先绑定服务");
 				}
@@ -370,7 +356,7 @@ public class CaseActivity extends Activity {
 		mButtonGenOTPOTAByPC.setOnClickListener(new OATPCOtaListener("1"));
 		mButtonGenOTPOTAByNewPC.setOnClickListener(new OATPCOtaListener("2"));
 
-		//修改PC码
+		// 修改PC码
 		mButtonUpdatePC.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -399,6 +385,25 @@ public class CaseActivity extends Activity {
 
 	public void reportToast(String message) {
 		ActivityUtil.reportToast(this, message);
+	}
+
+	private void initMobileNumber() {
+		String mobileNumber = SharedPreferencesWrapper.getCacheInstance().readString(
+				SharedPreferencesWrapper.MOBILE_NUMBER, "");
+		if (mobileNumber != null && !"".equals(mobileNumber.trim())) {
+			currentMobileNumber = mobileNumber;
+			mEditTextCellPhoneAuth.setText(mobileNumber);
+		}
+	}
+
+	private void setMobileNumber() {
+		final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
+		if (cellPhone.equals("")) {
+			reportToast("请输入认证手机号");
+			return;
+		}
+		// 保存到xml中
+		SharedPreferencesWrapper.getCacheInstance().writeString(SharedPreferencesWrapper.MOBILE_NUMBER, cellPhone);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.ailk.obs.ctpass.R;
 
 public class AStepCaseActivity extends Activity {
 	private CheckBox mButtonBindService;
+	//private Button 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class AStepCaseActivity extends Activity {
 	private void initView() {
 		mButtonBindService = (CheckBox) findViewById(R.id.buttonBindService);
 		final String pCFlagBindService = mButtonBindService.isChecked() == true ? "1" : "0";
+		
 	}
 	
 

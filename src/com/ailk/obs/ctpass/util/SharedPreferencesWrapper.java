@@ -133,11 +133,10 @@ public class SharedPreferencesWrapper {
 	public static void init(Context context) {
 		cacheInfoSFWrapper = new SharedPreferencesWrapper();
 		// 初始化SharedPreferences对象
-		cacheInfoSFWrapper.mSharedPreferences = context.getSharedPreferences(
-				CACHE_INFO_FILE_NAME, Context.MODE_PRIVATE);
+		cacheInfoSFWrapper.mSharedPreferences = context
+				.getSharedPreferences(CACHE_INFO_FILE_NAME, Context.MODE_PRIVATE);
 		// 初始化Editor对象
-		cacheInfoSFWrapper.editor = cacheInfoSFWrapper.mSharedPreferences
-				.edit();
+		cacheInfoSFWrapper.editor = cacheInfoSFWrapper.mSharedPreferences.edit();
 	}
 
 }
