@@ -10,6 +10,10 @@ public class DateUtil {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		return df.format(date);
 	}
+	public static String formatDate(Date date){
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		return df.format(date);
+	}
 	
 	public static String getWeekDay(Date date) {
 		String[] weekDays = {"日", "一", "二", "三", "四", "五", "六"};

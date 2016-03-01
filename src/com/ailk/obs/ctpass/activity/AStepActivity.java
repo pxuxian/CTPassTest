@@ -1,6 +1,7 @@
 package com.ailk.obs.ctpass.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +29,8 @@ public class AStepActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				ProgressDialogUtil.showProgress(AStepActivity.this, "正式环境正在测试中，请稍后。。。。");
+				startActivity(new Intent(AStepActivity.this, AStepCaseActivity.class));
+			//	ProgressDialogUtil.showProgress(AStepActivity.this, "正式环境正在测试中，请稍后。。。。");
 				
 				
 			}
