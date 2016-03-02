@@ -11,7 +11,7 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/textCellPhoneOTA"
+                    android:id="@+id/textCellPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"

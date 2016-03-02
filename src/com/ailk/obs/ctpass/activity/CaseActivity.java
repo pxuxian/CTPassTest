@@ -208,22 +208,26 @@ public class CaseActivity extends Activity {
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				setMobileNumber();
-				boolean flag = bindServiceManager.getCTPassService(view.getContext(), serviceConnection);
-				if (flag) {
-					reportToast("绑定服务成功");
-					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
-				} else {
-					reportToast("绑定服务失败");
-					mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
-				}
-				try {
-					bindServiceManager.getSingInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
-							PackageManager.GET_SIGNATURES));
-					bindServiceManager.getSignInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
-							PackageManager.GET_SIGNATURES));
-				} catch (NameNotFoundException e) {
-					e.printStackTrace();
+
+				if (setMobileNumber()) {
+					boolean flag = bindServiceManager.getCTPassService(view.getContext(), serviceConnection);
+					if (flag) {
+						reportToast("绑定服务成功");
+						mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
+					} else {
+						reportToast("绑定服务失败");
+						mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
+					}
+					try {
+						bindServiceManager.getSingInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
+								PackageManager.GET_SIGNATURES));
+						bindServiceManager.getSignInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
+								PackageManager.GET_SIGNATURES));
+					} catch (NameNotFoundException e) {
+						e.printStackTrace();
+					}
+				}else{
+					return;
 				}
 			}
 		});
@@ -387,6 +391,7 @@ public class CaseActivity extends Activity {
 		ActivityUtil.reportToast(this, message);
 	}
 
+	// 自动输入手机号码
 	private void initMobileNumber() {
 		String mobileNumber = SharedPreferencesWrapper.getCacheInstance().readString(
 				SharedPreferencesWrapper.MOBILE_NUMBER, "");
@@ -396,14 +401,15 @@ public class CaseActivity extends Activity {
 		}
 	}
 
-	private void setMobileNumber() {
+	public boolean setMobileNumber() {
 		final String cellPhone = mEditTextCellPhoneAuth.getText().toString().trim();
-		if (cellPhone.equals("")) {
-			reportToast("请输入认证手机号");
-			return;
-		}
-		// 保存到xml中
 		SharedPreferencesWrapper.getCacheInstance().writeString(SharedPreferencesWrapper.MOBILE_NUMBER, cellPhone);
+		if (cellPhone.equals("") || cellPhone.length() == 0 || cellPhone == null) {
+			reportToast("请输入认证手机号");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override
