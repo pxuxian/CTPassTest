@@ -1,17 +1,8 @@
 package com.ailk.obs.ctpass.util;
 
-import java.security.MessageDigest;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-/**
- * @author guoxc
- * @create 2009-10-22
- */
 public class Cryptogram {
-	
+	/*
 	private static byte[] defaultIV = {1,2,3,4,5,6,7,8};
 
 	private static byte chr2hex(String chr) {
@@ -60,12 +51,12 @@ public class Cryptogram {
 		return buf;
 	}
 
-	/**
+	*//**
 	 * Encrypt the data by the key.
 	 * @param OriSource
 	 * @return strResult
 	 * @throws Exception
-	 */
+	 *//*
 	public static String encryptByKey(String OriSource, String key) throws Exception {
 		
 		String strResult = "";
@@ -91,12 +82,12 @@ public class Cryptogram {
 		return strResult;
 	}
 	
-	/**
+	*//**
 	 * Decrypt the encrypted data with the key.
 	 * @param strData
 	 * @return strResult
 	 * @throws Exception
-	 */
+	 *//*
 	public static String decryptByKey(String encryptedData, String key) throws Exception {
 		
 		String strResult = "";
@@ -121,12 +112,12 @@ public class Cryptogram {
 		return strResult;
 	}
 	
-	/**
+	*//**
 	 * Decrypt the encrypted data with the key.
 	 * @param strData
 	 * @return strResult
 	 * @throws Exception
-	 */
+	 *//*
 	public static String getBase64HashString(String str) throws Exception{
 		
 		byte[] testSrc = str.getBytes("utf-8");
@@ -137,12 +128,12 @@ public class Cryptogram {
 	}
 	
 	
-	/**
+	*//**
 	 * Decrypt the encrypted data with the key.
 	 * @param strData
 	 * @return strResult
 	 * @throws Exception
-	 */
+	 *//*
 	public static String getAuthenicator(String sourceStr,String key) throws Exception{
 		
 		String strResult = "";
@@ -204,5 +195,5 @@ public class Cryptogram {
 		catch(Exception Ex){
 			Ex.printStackTrace();
 		}	
-	}
+	}*/
 }

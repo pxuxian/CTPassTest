@@ -24,7 +24,7 @@ public class HttpClient {
 		String Signature = APP_ID + txtOTP + txtMobile + PCFlag + Timestamp;
 		String encryptSignature = "";
 		try {
-			encryptSignature = Cryptogram.encryptByKey(Signature, APP_KEY);
+		//	encryptSignature = Cryptogram.encryptByKey(Signature, APP_KEY);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
