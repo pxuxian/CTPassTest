@@ -2,8 +2,6 @@ package com.ailk.obs.ctpass.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -60,7 +58,14 @@ public class CaseActivity extends Activity {
 			case Constants.CASE_TOAST:
 				reportToast(msg.getData().getString("MSG"));
 				break;
-
+			case Constants.CASE_BIND:
+				reportToast(msg.getData().getString("RESULT"));
+				if (msg.getData().getBoolean("FLAG")) {
+					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
+				} else {
+					mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
+				}
+				break;
 			case Constants.CASE_CONN:
 				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
@@ -208,26 +213,8 @@ public class CaseActivity extends Activity {
 		mButtonBindService.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-
 				if (setMobileNumber()) {
-					boolean flag = bindServiceManager.getCTPassService(view.getContext(), serviceConnection);
-					if (flag) {
-						reportToast("绑定服务成功");
-						mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
-					} else {
-						reportToast("绑定服务失败");
-						mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
-					}
-					try {
-						bindServiceManager.getSingInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
-								PackageManager.GET_SIGNATURES));
-						bindServiceManager.getSignInfo(getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
-								PackageManager.GET_SIGNATURES));
-					} catch (NameNotFoundException e) {
-						e.printStackTrace();
-					}
-				}else{
-					return;
+					bindServiceManager.bindService(view.getContext(), serviceConnection, handler);
 				}
 			}
 		});

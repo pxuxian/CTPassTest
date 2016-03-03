@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.util.ActivityUtil;
-import com.ailk.obs.ctpass.util.ProgressDialogUtil;
 import com.ailk.obs.ctpass.util.SharedPreferencesWrapper;
 
 public class AStepActivity extends Activity {
@@ -37,31 +36,29 @@ public class AStepActivity extends Activity {
 		this.initMobileNumber();
 		this.initPcNumber();
 
-		mButtonGoFormal.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// 自动将phone和pcCode写入内存
-				if (setMobileNumber() && setPcNumber()) {
-					startActivity(new Intent(AStepActivity.this, AStepCaseActivity.class));
-					// ProgressDialogUtil.showProgress(AStepActivity.this,
-					// "正式环境正在测试中，请稍后。。。。");
-				} else {
-					return;
-				}
-			}
-		});
+		// 一键测试
+		class OATListener implements OnClickListener {
+			private String hostUrl;
 
-		mButtonGoTest.setOnClickListener(new OnClickListener() {
+			public OATListener(String hostUrl) {
+				this.hostUrl = hostUrl;
+			}
+
 			@Override
 			public void onClick(View v) {
 				// 自动将phone和pcCode写入内存
 				if (setMobileNumber() && setPcNumber()) {
-					ProgressDialogUtil.showProgress(AStepActivity.this, "测试环境正在测试中，请稍后。。。。");
-				} else {
-					return;
+					Intent intent = new Intent();
+					intent.putExtra("phoneNumber", currentMobileNumber);
+					intent.putExtra("pcCode", currentPcCode);
+					intent.putExtra("hostUrl", hostUrl);
+					intent.setClass(AStepActivity.this, AStepCaseActivity.class);
+					startActivity(intent);
 				}
 			}
-		});
+		}
+		mButtonGoFormal.setOnClickListener(new OATListener("0"));
+		mButtonGoTest.setOnClickListener(new OATListener("1"));
 	}
 
 	public void reportToast(String message) {

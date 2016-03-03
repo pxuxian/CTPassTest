@@ -10,14 +10,39 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+
+import com.ailk.obs.ctpass.constant.Constants;
+import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class BindServiceManager {
 	private static final String BIND_ACTION = "cn.com.chinatelecom.ctpass.service";
 	private static final String BIND_PACKAGE = "cn.com.chinatelecom.ctpass";
-	
+
+	public void bindService(Context context, ServiceConnection serviceConnection, Handler handler) {
+
+		boolean flag = getCTPassService(context, serviceConnection);
+		if (flag) {
+			HandlerUtil.send(handler, Constants.CASE_BIND, "绑定服务成功", true);
+		} else {
+			HandlerUtil.send(handler, Constants.CASE_BIND, "绑定服务失败", false);
+		}
+		try {
+			this.getSingInfo(context.getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
+					PackageManager.GET_SIGNATURES));
+			this.getSignInfo(context.getPackageManager().getPackageInfo("cn.com.chinatelecom.ctpass",
+					PackageManager.GET_SIGNATURES));
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public boolean getCTPassService(Context context, ServiceConnection serviceConnection) {
 		try {
 			Intent intent = new Intent();
@@ -30,7 +55,7 @@ public class BindServiceManager {
 		}
 		return false;
 	}
-	
+
 	public void getSingInfo(PackageInfo packageInfo) {
 		try {
 			Signature[] signs = packageInfo.signatures;
