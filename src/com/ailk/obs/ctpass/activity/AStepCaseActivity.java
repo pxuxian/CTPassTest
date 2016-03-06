@@ -20,6 +20,7 @@ import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
+import com.ailk.obs.ctpass.report.ReportUtil;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AStepCaseActivity extends Activity {
@@ -44,10 +45,11 @@ public class AStepCaseActivity extends Activity {
 			case Constants.CASE_BIND:
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
+					ReportUtil.report("1", "BindService", true);
 				} else {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
+					ReportUtil.report("1", "BindService", false);
 				}
-
 				break;
 			case Constants.CASE_CONN:
 				if (msg.getData().getBoolean("FLAG")) {

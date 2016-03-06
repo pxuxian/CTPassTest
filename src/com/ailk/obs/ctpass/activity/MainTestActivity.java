@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.R;
-import com.ailk.obs.ctpass.log.LogUtil;
 import com.ailk.obs.ctpass.util.DateUtil;
 
 public class MainTestActivity extends Activity implements OnClickListener {
@@ -53,7 +52,6 @@ public class MainTestActivity extends Activity implements OnClickListener {
 				startActivity(new Intent(MainTestActivity.this, IndexActivity.class));
 				break;
 			case R.id.onece_test_tv:
-				LogUtil.write("test....");
 				startActivity(new Intent(MainTestActivity.this, AStepActivity.class));
 				break;
 			case R.id.report_tv:
