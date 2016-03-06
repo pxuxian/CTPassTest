@@ -1,5 +1,8 @@
 package com.ailk.obs.ctpass.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,11 +23,13 @@ import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AStepCaseActivity extends Activity {
+	private List<CheckBox> allCheckBoxs = new ArrayList<CheckBox>();
 	private CheckBox mButtonBindService;
 	private CheckBox mButtonConnect;
 	private String phoneNumber;
 	private String pcCode;
 	private int hostUrl;
+	private Button mButtonSelectall;
 	private Button mButtonStepTest;
 
 	// 检查认证结果
@@ -68,8 +73,11 @@ public class AStepCaseActivity extends Activity {
 
 	private void initView() {
 		mButtonBindService = (CheckBox) findViewById(R.id.buttonBindService);
+		allCheckBoxs.add(mButtonBindService);
 		mButtonConnect = (CheckBox) findViewById(R.id.buttonConnect);
+		allCheckBoxs.add(mButtonConnect);
 		mButtonStepTest = (Button) findViewById(R.id.bt_aStepTest);
+		mButtonSelectall = (Button) findViewById(R.id.bt_selectall);
 
 		Intent intent = getIntent();
 		phoneNumber = intent.getStringExtra("phoneNumber");
@@ -104,6 +112,17 @@ public class AStepCaseActivity extends Activity {
 					}
 					HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
 				}
+			}
+		});
+		mButtonSelectall.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Boolean checked = allCheckBoxs.get(0).isChecked();
+				for (CheckBox caseCheckBox : allCheckBoxs) {
+					caseCheckBox.setChecked(!checked);
+				}
+
 			}
 		});
 

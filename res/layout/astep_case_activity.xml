@@ -77,21 +77,12 @@
                 android:gravity="center"
                 android:orientation="horizontal" >
 
-                <!--
                 <Button
                     android:id="@+id/bt_selectall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="全选" />
-
-                <Button
-                    android:id="@+id/bt_deselectall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="置空" />
-                -->
+                    android:text="全选/反选" />
 
                 <Button
                     android:id="@+id/bt_aStepTest"
