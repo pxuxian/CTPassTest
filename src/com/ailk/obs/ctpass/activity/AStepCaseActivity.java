@@ -23,6 +23,7 @@ import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.report.ReportUtil;
+import com.ailk.obs.ctpass.util.ActivityUtil;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AStepCaseActivity extends Activity {
@@ -48,6 +49,7 @@ public class AStepCaseActivity extends Activity {
 				break;
 
 			case Constants.CASE_BIND:
+				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
 					ReportUtil.report("1", "BindService", true);
@@ -55,8 +57,10 @@ public class AStepCaseActivity extends Activity {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
 					ReportUtil.report("1", "BindService", false);
 				}
+				testConnect();
 				break;
 			case Constants.CASE_CONN:
+				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_GREEN);
 					ReportUtil.report("2", "建立机卡连接", true);
@@ -64,9 +68,11 @@ public class AStepCaseActivity extends Activity {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_RED);
 					ReportUtil.report("2", "建立机卡连接", false);
 				}
+				testOthers();
 				break;
 
 			case Constants.CASE_AUTH_TOKEN:
+				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonGenToken.setBackgroundColor(Constants.COLOR_GREEN);
 					ReportUtil.report("3", "Get CTPass Token(OMA)", true);
@@ -86,12 +92,14 @@ public class AStepCaseActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.astep_case_activity);
 		this.initView();
 	}
 
 	private void initView() {
+
 		mButtonBindService = (CheckBox) findViewById(R.id.buttonBindService);
 		allCheckBoxs.add(mButtonBindService);
 		mButtonConnect = (CheckBox) findViewById(R.id.buttonConnect);
@@ -118,30 +126,6 @@ public class AStepCaseActivity extends Activity {
 				if (mButtonBindService.isChecked()) {
 					bindServiceManager.bindService(view.getContext(), serviceConnection, handler);
 				}
-
-				// 建立机卡连接
-				if (mButtonConnect.isChecked()) {
-					if (serviceConnection.getCtpassAIDLService() != null) {
-						try {
-							serviceConnection.getCtpassAIDLService().connectCTPassService();
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-					} else {
-						HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
-					}
-
-				}
-
-				// get ctpass token by oma
-				boolean flag = mButtonGenToken.isChecked();
-				if (mButtonGenToken.isChecked()) {
-					if (serviceConnection.getCtpassAIDLService() != null) {
-						authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
-					}else{
-						HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "Token认失败", false);
-					}
-				}
 			}
 		});
 
@@ -159,6 +143,33 @@ public class AStepCaseActivity extends Activity {
 
 	}
 
+	private void testConnect() {
+		// 建立机卡连接
+		if (mButtonConnect.isChecked()) {
+			if (serviceConnection.getCtpassAIDLService() != null) {
+				try {
+					serviceConnection.getCtpassAIDLService().connectCTPassService();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			} else {
+				HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
+			}
+
+		}
+	}
+
+	private void testOthers() {
+		// get ctpass token by oma
+		if (mButtonGenToken.isChecked()) {
+			if (serviceConnection.getCtpassAIDLService() != null) {
+				authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
+			} else {
+				HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "Token认失败", false);
+			}
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -169,4 +180,7 @@ public class AStepCaseActivity extends Activity {
 		super.onDestroy();
 	}
 
+	public void reportToast(String message) {
+		ActivityUtil.reportToast(this, message);
+	}
 }

@@ -18,126 +18,18 @@
             android:background="@android:color/black" />
 
         <LinearLayout
+            android:id="@+id/report_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="@android:color/white"
             android:orientation="horizontal" >
 
-            <TextView
+            <!-- <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#99cc33"
                 android:gravity="center_vertical"
-                android:text="1. Bind CTPass Service" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99cc33"
-                android:gravity="center_vertical"
-                android:text="2. 建立机卡连接" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ff0000"
-                android:gravity="center_vertical"
-                android:text="3. Get CTPass Token(OMA)" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99cc33"
-                android:gravity="center_vertical"
-                android:text="4. Get CTPass Token(OTA)" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99cc33"
-                android:gravity="center_vertical"
-                android:text="5. Get CTPass Token(OMA) By PC" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99cc33"
-                android:gravity="center_vertical"
-                android:text="6. Get CTPass Token(OTA) By NewPC" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ff0000"
-                android:gravity="center_vertical"
-                android:text="7. CTPass融合Token认证" />
+                android:text="1. Bind CTPass Service" /> -->
         </LinearLayout>
 
         <View
