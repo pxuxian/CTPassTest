@@ -120,31 +120,32 @@ public class AStepCaseActivity extends Activity {
 				}
 
 				// 建立机卡连接
-				if (mButtonConnect.isChecked() ) {
+				if (mButtonConnect.isChecked()) {
 					if (serviceConnection.getCtpassAIDLService() != null) {
 						try {
 							serviceConnection.getCtpassAIDLService().connectCTPassService();
-							return;
 						} catch (RemoteException e) {
 							e.printStackTrace();
 						}
+					} else {
+						HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
 					}
-					HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
+
 				}
 
 				// get ctpass token by oma
-				boolean flag =mButtonGenToken.isChecked();
+				boolean flag = mButtonGenToken.isChecked();
 				if (mButtonGenToken.isChecked()) {
 					if (serviceConnection.getCtpassAIDLService() != null) {
 						authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
-						return;
+					}else{
+						HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "Token认失败", false);
 					}
-					HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "Token认失败", false);
 				}
 			}
 		});
-		
-		//一键测试
+
+		// 一键测试
 		mButtonSelectall.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
