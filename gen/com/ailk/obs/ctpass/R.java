@@ -61,8 +61,8 @@ public final class R {
     }
     public static final class id {
         public static final int all_test_tv=0x7f080003;
-        public static final int bt_aStepTest=0x7f08000e;
-        public static final int bt_selectall=0x7f08000d;
+        public static final int bt_aStepTest=0x7f08000f;
+        public static final int bt_selectall=0x7f08000e;
         public static final int btn_Release=0x7f080020;
         public static final int btn_debug=0x7f080021;
         public static final int btn_etOTPLength6=0x7f080017;
@@ -71,7 +71,7 @@ public final class R {
         public static final int btn_test_astep=0x7f08000a;
         public static final int buttonBindService=0x7f08000b;
         public static final int buttonConnect=0x7f08000c;
-        public static final int buttonConnectOMA=0x7f080010;
+        public static final int buttonConnectOMA=0x7f080011;
         public static final int buttonGenMixOTP=0x7f080019;
         public static final int buttonGenMixOTPByNewPC=0x7f08001b;
         public static final int buttonGenMixOTPByPC=0x7f08001a;
@@ -79,7 +79,7 @@ public final class R {
         public static final int buttonGenOTPOTA=0x7f08001c;
         public static final int buttonGenOTPOTAByNewPC=0x7f08001e;
         public static final int buttonGenOTPOTAByPC=0x7f08001d;
-        public static final int buttonGenToken=0x7f080011;
+        public static final int buttonGenToken=0x7f08000d;
         public static final int buttonGenTokenByOTA=0x7f080012;
         public static final int buttonGenTokenByOTANewPC=0x7f080014;
         public static final int buttonGenTokenByOTAPC=0x7f080013;
@@ -92,7 +92,7 @@ public final class R {
         public static final int report_tv=0x7f080005;
         public static final int test_log_tv=0x7f080006;
         public static final int textCellPhone=0x7f080007;
-        public static final int textCellPhoneOTA=0x7f08000f;
+        public static final int textCellPhoneOTA=0x7f080010;
         public static final int textpcCode=0x7f080008;
         public static final int user_tv=0x7f080000;
     }

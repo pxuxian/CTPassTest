@@ -16,22 +16,27 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.ailk.obs.ctpass.APIProvider;
+import com.ailk.obs.ctpass.AsyncProvider;
 import com.ailk.obs.ctpass.R;
 import com.ailk.obs.ctpass.constant.Constants;
+import com.ailk.obs.ctpass.manage.AuthTokenManager;
 import com.ailk.obs.ctpass.manage.BindServiceConnection;
 import com.ailk.obs.ctpass.manage.BindServiceManager;
 import com.ailk.obs.ctpass.report.ReportUtil;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AStepCaseActivity extends Activity {
-	private List<CheckBox> allCheckBoxs = new ArrayList<CheckBox>();
-	private CheckBox mButtonBindService;
-	private CheckBox mButtonConnect;
 	private String phoneNumber;
 	private String pcCode;
 	private int hostUrl;
+	private List<CheckBox> allCheckBoxs = new ArrayList<CheckBox>();
+	private CheckBox mButtonBindService;
+	private CheckBox mButtonConnect;
+	private CheckBox mButtonGenToken;
 	private Button mButtonSelectall;
 	private Button mButtonStepTest;
+	private AuthTokenManager authTokenManage = new AuthTokenManager();
+	private AsyncProvider mAsyncProvider = new AsyncProvider();
 
 	// 检查认证结果
 	@SuppressLint("HandlerLeak")
@@ -57,9 +62,20 @@ public class AStepCaseActivity extends Activity {
 					ReportUtil.report("2", "建立机卡连接", true);
 				} else {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_RED);
-					ReportUtil.report("3", "建立机卡连接", false);
+					ReportUtil.report("2", "建立机卡连接", false);
 				}
 				break;
+
+			case Constants.CASE_AUTH_TOKEN:
+				if (msg.getData().getBoolean("FLAG")) {
+					mButtonGenToken.setBackgroundColor(Constants.COLOR_GREEN);
+					ReportUtil.report("3", "Get CTPass Token(OMA)", true);
+				} else {
+					mButtonGenToken.setBackgroundColor(Constants.COLOR_RED);
+					ReportUtil.report("3", "Get CTPass Token(OMA)", false);
+				}
+				break;
+
 			default:
 				break;
 			}
@@ -80,13 +96,14 @@ public class AStepCaseActivity extends Activity {
 		allCheckBoxs.add(mButtonBindService);
 		mButtonConnect = (CheckBox) findViewById(R.id.buttonConnect);
 		allCheckBoxs.add(mButtonConnect);
+		mButtonGenToken = (CheckBox) findViewById(R.id.buttonGenToken);
+		allCheckBoxs.add(mButtonGenToken);
 		mButtonStepTest = (Button) findViewById(R.id.bt_aStepTest);
 		mButtonSelectall = (Button) findViewById(R.id.bt_selectall);
 
 		Intent intent = getIntent();
 		phoneNumber = intent.getStringExtra("phoneNumber");
 		pcCode = intent.getStringExtra("pcCode");
-		String s = intent.getStringExtra("hostUrl");
 		hostUrl = Integer.parseInt(intent.getStringExtra("hostUrl"));
 		if (hostUrl == 0) {
 			APIProvider.hostURL = APIProvider.RELEASE_HOST_URL;
@@ -98,14 +115,12 @@ public class AStepCaseActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				// 绑定服务
-				final String bindServiceFlag = mButtonBindService.isChecked() == true ? "1" : "0";
-				if (bindServiceFlag.equals("1")) {
+				if (mButtonBindService.isChecked()) {
 					bindServiceManager.bindService(view.getContext(), serviceConnection, handler);
 				}
 
 				// 建立机卡连接
-				final String connectServiceFlag = mButtonConnect.isChecked() == true ? "1" : "0";
-				if (connectServiceFlag.equals("1")) {
+				if (mButtonConnect.isChecked() ) {
 					if (serviceConnection.getCtpassAIDLService() != null) {
 						try {
 							serviceConnection.getCtpassAIDLService().connectCTPassService();
@@ -116,10 +131,21 @@ public class AStepCaseActivity extends Activity {
 					}
 					HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
 				}
+
+				// get ctpass token by oma
+				boolean flag =mButtonGenToken.isChecked();
+				if (mButtonGenToken.isChecked()) {
+					if (serviceConnection.getCtpassAIDLService() != null) {
+						authTokenManage.authTokenOMA(serviceConnection, mAsyncProvider, handler);
+						return;
+					}
+					HandlerUtil.send(handler, Constants.CASE_AUTH_TOKEN, "Token认失败", false);
+				}
 			}
 		});
+		
+		//一键测试
 		mButtonSelectall.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Boolean checked = allCheckBoxs.get(0).isChecked();
@@ -130,9 +156,6 @@ public class AStepCaseActivity extends Activity {
 			}
 		});
 
-	}
-
-	public void bt_selectall(View view) {
 	}
 
 	@Override
