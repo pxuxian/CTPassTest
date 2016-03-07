@@ -54,8 +54,10 @@ public class AStepCaseActivity extends Activity {
 			case Constants.CASE_CONN:
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_GREEN);
+					ReportUtil.report("2", "建立机卡连接", true);
 				} else {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_RED);
+					ReportUtil.report("3", "建立机卡连接", false);
 				}
 				break;
 			default:
