@@ -23,7 +23,7 @@ public class FileUtil {
 
 	// 利用正规表达式获得文件名称
 	public static String parseFileName(String filename) {
-		String regex = "\\w+\\.xml";
+		String regex = "\\w+1";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(filename);
 		String caseName = "";
