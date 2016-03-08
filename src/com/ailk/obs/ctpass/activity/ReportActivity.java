@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ailk.obs.ctpass.R;
-import com.ailk.obs.ctpass.TestReportActivity;
 import com.ailk.obs.ctpass.log.LogUtil;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 import com.ailk.obs.ctpass.util.FileUtil;
@@ -48,12 +46,10 @@ public class ReportActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent();
+					String t =fileName.toString();
 					intent.putExtra("fileName", fileName.toString());
 					intent.setClass(ReportActivity.this, TestReportActivity.class);
 					startActivity(intent);
-					
-					
-					reportToast(((TextView) v).getText().toString());
 				}
 			});
 			linearLayoutAll.addView(linearLayout);
