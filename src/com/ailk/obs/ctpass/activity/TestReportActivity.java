@@ -1,5 +1,7 @@
 package com.ailk.obs.ctpass.activity;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,16 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ailk.obs.ctpass.R;
-import com.ailk.obs.ctpass.log.LogUtil;
 import com.ailk.obs.ctpass.util.ActivityUtil;
 import com.ailk.obs.ctpass.util.FileUtil;
 
 public class TestReportActivity extends Activity {
-	private FileUtil fileUtil;
-	private LogUtil logUtil;
-	private LinearLayout linearLayout;
 	private LinearLayout linearLayoutAll;
-	private TextView textViewReportName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +26,14 @@ public class TestReportActivity extends Activity {
 		Intent intent = getIntent();
 		String fileName = intent.getStringExtra("fileName");
 		linearLayoutAll = ((LinearLayout) this.findViewById(R.id.test_report));
-		linearLayout = new LinearLayout(this);
-		textViewReportName = new TextView(this);
-		textViewReportName.setText("dfafa");
-		linearLayout.addView(textViewReportName);
-		linearLayoutAll.addView(linearLayout);
+		List<String> contents = FileUtil.read(fileName);
+		for (String content : contents) {
+			LinearLayout linearLayout = new LinearLayout(this);
+			TextView textViewReportName = new TextView(this);
+			textViewReportName.setText(content);
+			linearLayout.addView(textViewReportName);
+			linearLayoutAll.addView(linearLayout);
+		}
 	}
 
 	@Override

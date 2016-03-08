@@ -9,7 +9,7 @@ import android.os.Environment;
 public class LogUtil {
 	public static final String CACHE_DIR = "ctpass";
 	public static final String REPORT_DIRE = "report";
-
+	
 	public static synchronized void write(String path, String fileName, String content) {
 		try {
 			FileWriter writer = new FileWriter(getFile(path, fileName), true);
@@ -44,4 +44,5 @@ public class LogUtil {
 		File filePath = new File(cacheDir + File.separator + fileName);
 		return filePath.toString();
 	}
+	
 }
