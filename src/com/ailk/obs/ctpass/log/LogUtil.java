@@ -21,6 +21,17 @@ public class LogUtil {
 		}
 	}
 
+	// 返回存放报告列表
+	public static String GetReportFilePath() {
+		File sdDir = null;
+		if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+			sdDir = Environment.getExternalStorageDirectory();
+		}
+		return sdDir + File.separator + CACHE_DIR + File.separator + REPORT_DIRE;
+
+	}
+
+	// 返回报告文件
 	private static String getFile(String path, String fileName) {
 		File sdDir = null;
 		if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {

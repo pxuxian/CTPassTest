@@ -5,17 +5,12 @@
     android:layout_margin="5dp" >
 
     <LinearLayout
-        android:id="@+id/gd_ll"
+        android:id="@+id/gd_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:orientation="vertical"
         android:padding="1px" >
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
 
         <LinearLayout
             android:id="@+id/report_linearLayout"
@@ -23,19 +18,7 @@
             android:layout_height="35dp"
             android:background="@android:color/white"
             android:orientation="horizontal" >
-
-            <!-- <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99cc33"
-                android:gravity="center_vertical"
-                android:text="1. Bind CTPass Service" /> -->
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/black" />
     </LinearLayout>
 
 </RelativeLayout>

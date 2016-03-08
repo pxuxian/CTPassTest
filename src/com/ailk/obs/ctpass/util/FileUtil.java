@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class FileUtil {
 
-	public List<File> ReadFile(String filePath) {
+	public static List<File> ReadFile(String filePath) {
 		File file = null;
 		file = new File(filePath);
 		// 得到file文件夹下面的所有文件
@@ -22,7 +22,7 @@ public class FileUtil {
 	}
 
 	// 利用正规表达式获得文件名称
-	public String parseFileName(String filename) {
+	public static String parseFileName(String filename) {
 		String regex = "\\w+\\.xml";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(filename);
@@ -32,8 +32,5 @@ public class FileUtil {
 		}
 		return caseName;
 	}
-	
-
-
 
 }
