@@ -27,6 +27,7 @@ import com.ailk.obs.ctpass.util.ActivityUtil;
 import com.ailk.obs.ctpass.util.HandlerUtil;
 
 public class AStepCaseActivity extends Activity {
+	private String fileName;
 	private String phoneNumber;
 	private String pcCode;
 	private int hostUrl;
@@ -52,21 +53,22 @@ public class AStepCaseActivity extends Activity {
 				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_GREEN);
-					ReportUtil.report("1", "BindService", true);
+					ReportUtil.report(fileName, "1", "BindService", true);
 				} else {
 					mButtonBindService.setBackgroundColor(Constants.COLOR_RED);
-					ReportUtil.report("1", "BindService", false);
+					ReportUtil.report(fileName, "1", "BindService", false);
 				}
 				testConnect();
 				break;
+
 			case Constants.CASE_CONN:
 				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_GREEN);
-					ReportUtil.report("2", "建立机卡连接", true);
+					ReportUtil.report(fileName, "2", "建立机卡连接", true);
 				} else {
 					mButtonConnect.setBackgroundColor(Constants.COLOR_RED);
-					ReportUtil.report("2", "建立机卡连接", false);
+					ReportUtil.report(fileName, "2", "建立机卡连接", false);
 				}
 				testOthers();
 				break;
@@ -75,10 +77,10 @@ public class AStepCaseActivity extends Activity {
 				reportToast(msg.getData().getString("RESULT"));
 				if (msg.getData().getBoolean("FLAG")) {
 					mButtonGenToken.setBackgroundColor(Constants.COLOR_GREEN);
-					ReportUtil.report("3", "Get CTPass Token(OMA)", true);
+					ReportUtil.report(fileName, "3", "Get CTPass Token(OMA)", true);
 				} else {
 					mButtonGenToken.setBackgroundColor(Constants.COLOR_RED);
-					ReportUtil.report("3", "Get CTPass Token(OMA)", false);
+					ReportUtil.report(fileName, "3", "Get CTPass Token(OMA)", false);
 				}
 				break;
 
@@ -92,7 +94,6 @@ public class AStepCaseActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.astep_case_activity);
 		this.initView();
@@ -122,6 +123,7 @@ public class AStepCaseActivity extends Activity {
 		mButtonStepTest.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				fileName = ReportUtil.createReport();
 				// 绑定服务
 				if (mButtonBindService.isChecked()) {
 					bindServiceManager.bindService(view.getContext(), serviceConnection, handler);
@@ -137,10 +139,8 @@ public class AStepCaseActivity extends Activity {
 				for (CheckBox caseCheckBox : allCheckBoxs) {
 					caseCheckBox.setChecked(!checked);
 				}
-
 			}
 		});
-
 	}
 
 	private void testConnect() {
@@ -155,7 +155,6 @@ public class AStepCaseActivity extends Activity {
 			} else {
 				HandlerUtil.send(handler, Constants.CASE_CONN, "建立机卡连接失败", false);
 			}
-
 		}
 	}
 
