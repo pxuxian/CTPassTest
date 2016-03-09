@@ -59,7 +59,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TestReportActivity"
+            android:name=".activity.TestReportActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
     </application>

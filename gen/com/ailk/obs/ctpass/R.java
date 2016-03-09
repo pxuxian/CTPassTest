@@ -90,10 +90,9 @@ public final class R {
         public static final int gd_all=0x7f080023;
         public static final int gd_ll=0x7f080002;
         public static final int onece_test_tv=0x7f080004;
-        public static final int report_linearLayout=0x7f080024;
         public static final int report_tv=0x7f080005;
         public static final int test_log_tv=0x7f080006;
-        public static final int test_report=0x7f080025;
+        public static final int test_report=0x7f080024;
         public static final int textCellPhone=0x7f080007;
         public static final int textCellPhoneOTA=0x7f080010;
         public static final int textpcCode=0x7f080008;

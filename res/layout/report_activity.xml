@@ -11,14 +11,6 @@
         android:layout_marginTop="1dp"
         android:orientation="vertical"
         android:padding="1px" >
-
-        <LinearLayout
-            android:id="@+id/report_linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal" >
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
